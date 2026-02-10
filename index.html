@@ -1,24 +1,60 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Roblox Avatar Zoeker</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Roblox Avatar Viewer</title>
+<style>
+body { font-family: Arial; background:#1a1a1a; color:white; display:flex; justify-content:center; align-items:center; height:100vh; }
+.container { text-align:center; background:#222; padding:30px; border-radius:12px; }
+input, button { padding:10px; border-radius:6px; border:none; margin:5px; }
+button { background:#4a90e2; color:white; cursor:pointer; }
+img { margin-top:20px; border-radius:12px; width:150px; height:150px; }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎮 Roblox Avatar Zoeker</h1>
+<div class="container">
+<h2>Roblox Avatar Viewer</h2>
+<input type="text" id="username" placeholder="Roblox username">
+<button onclick="zoekAvatar()">Zoek Avatar</button>
+<div id="resultaat">
+<img id="avatar" src="" alt="">
+<p id="status"></p>
+</div>
+</div>
 
-        <input type="text" id="username" placeholder="Roblox username">
-        <button onclick="zoekAvatar()">Zoek avatar</button>
+<script>
+async function zoekAvatar() {
+    const username = document.getElementById("username").value.trim();
+    const status = document.getElementById("status");
+    const avatar = document.getElementById("avatar");
+    status.textContent = "Zoeken...";
+    avatar.src = "";
 
-        <div id="resultaat">
-            <img id="avatar" src="" alt="" />
-            <p id="status"></p>
-        </div>
-    </div>
+    if (!username) { status.textContent = "Typ een username!"; return; }
 
-    <script src="script.js"></script>
+    try {
+        // Roblox heeft een endpoint om userId van username te krijgen
+        const res = await fetch(`https://api.roblox.com/users/get-by-username?username=${username}`);
+        const data = await res.json();
+
+        if (data.success === false || !data.Id) {
+            status.textContent = "Gebruiker niet gevonden 😢";
+            return;
+        }
+
+        const userId = data.Id;
+        // Avatar image
+        const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=150&height=150&format=png`;
+
+        avatar.src = avatarUrl;
+        status.textContent = "✅ Avatar gevonden!";
+    } catch (err) {
+        console.error(err);
+        status.textContent = "Er ging iets fout ⚠️";
+    }
+}
+</script>
+
 </body>
 </html>
