@@ -1,50 +1,43 @@
+/* Algemene stijlen voor de hele pagina */
 body {
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Arial', sans-serif; /* Lettertype */
+    line-height: 1.6; /* Regelafstand */
+    margin: 0; /* Geen standaard marge */
+    padding: 20px; /* Binnenruimte */
+    background-color: #f4f4f4; /* Lichtgrijze achtergrond */
+    color: #333; /* Donkergrijze tekst */
 }
 
-.container {
-    background: #020617;
-    padding: 30px;
-    border-radius: 12px;
+/* Stijlen voor de header */
+header {
+    background-color: #333; /* Donkere achtergrond */
+    color: #fff; /* Witte tekst */
+    text-align: center; /* Gecentreerde tekst */
+    padding: 20px;
+    border-radius: 8px; /* Afgeronde hoeken */
+    margin-bottom: 20px;
+}
+
+/* Stijlen voor de main secties */
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Lichte schaduw */
+}
+
+/* Specifieke stijl voor de footer */
+footer {
     text-align: center;
-    width: 300px;
-}
-
-input {
-    width: 100%;
     padding: 10px;
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 10px;
+    font-size: 0.9em; /* Iets kleinere tekst */
+    color: #666;
 }
 
-button {
-    padding: 10px;
-    width: 100%;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background: #2563eb;
-    color: white;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-#avatar {
-    margin-top: 15px;
-    width: 150px;
-    height: 150px;
-}
-
-#status {
-    margin-top: 10px;
+/* Stijl voor de afbeelding */
+img {
+    display: block; /* Zorgt dat de marge auto werkt voor centreren */
+    margin: 10px auto; /* Centreert de afbeelding */
+    border-radius: 50%; /* Maakt de afbeelding rond */
 }
