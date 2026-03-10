@@ -3,38 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mijn Coole Website</title>
-    <!-- Link naar ons CSS bestand (die we zo gaan maken) -->
+    <title>Diamond Barber - Kapperszaak Tienen</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome voor de icoontjes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-    <header>
-        <h1>Welkom op mijn website!</h1>
-        <p>Dit is mijn eerste zelfgemaakte site.</p>
-    </header>
-
-    <main>
-        <section id="over-mij">
-            <h2>Over Mij</h2>
-            <p>Hoi! Ik ben een beginnende webdeveloper en dit is mijn portfolio. Ik leer HTML, CSS en JavaScript.</p>
-            <img src="https://via.placeholder.com/150" alt="Een tijdelijke afbeelding">
-        </section>
-
-        <section id="projecten">
-            <h2>Mijn Projecten</h2>
-            <ul>
-                <li>Project 1: Een coole rekenmachine</li>
-                <li>Project 2: Een portfolio website</li>
+    <!-- Navigatie -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>DIAMOND <span>BARBER</span></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#over">Over Ons</a></li>
+                <li><a href="#diensten">Diensten</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-        </section>
-    </main>
+        </div>
+    </nav>
 
+    <!-- Hero Sectie (Home) -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>DIAMOND BARBER</h1>
+            <p>De beste barber in Tienen</p>
+            <a href="#contact" class="btn">Maak Afspraak</a>
+        </div>
+    </section>
+
+    <!-- Over Ons Sectie -->
+    <section id="over" class="over">
+        <div class="container">
+            <h2 class="section-title">Over Diamond Barber</h2>
+            <div class="over-content">
+                <div class="over-text">
+                    <p>Welkom bij Diamond Barber, uw premium kapperszaak in het hart van Tienen. Wij staan voor kwaliteit, stijl en persoonlijke service. Onze ervaren barbers zorgen ervoor dat u er altijd op uw best uitziet.</p>
+                    <p>Of u nu komt voor een klassiek scheerbeurt, een trendy knipbeurt of een complete make-over, bij Diamond Barber bent u aan het juiste adres.</p>
+                    <div class="kenmerken">
+                        <div class="kenmerk">
+                            <i class="fas fa-cut"></i>
+                            <span>Professionele barbers</span>
+                        </div>
+                        <div class="kenmerk">
+                            <i class="fas fa-clock"></i>
+                            <span>Geen wachttijden</span>
+                        </div>
+                        <div class="kenmerk">
+                            <i class="fas fa-spa"></i>
+                            <span>Premium producten</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="over-image">
+                    <!-- Dit is een placeholder afbeelding -->
+                    <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=600" alt="Barber aan het werk">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diensten Sectie -->
+    <section id="diensten" class="diensten">
+        <div class="container">
+            <h2 class="section-title">Onze Diensten</h2>
+            <div class="diensten-grid">
+                <div class="dienst-card">
+                    <i class="fas fa-cut"></i>
+                    <h3>Knippen</h3>
+                    <p>Professioneel knippen naar wens</p>
+                    <p class="prijs">€25</p>
+                </div>
+                <div class="dienst-card">
+                    <i class="fas fa-razor"></i>
+                    <h3>Baard trimmen</h3>
+                    <p>Precisie baardverzorging</p>
+                    <p class="prijs">€18</p>
+                </div>
+                <div class="dienst-card">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>Complete styling</h3>
+                    <p>Knippen + baard + styling</p>
+                    <p class="prijs">€38</p>
+                </div>
+                <div class="dienst-card">
+                    <i class="fas fa-child"></i>
+                    <h3>Kinderen (-12 jaar)</h3>
+                    <p>Speciaal tarief voor kinderen</p>
+                    <p class="prijs">€18</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Sectie -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Afspraken</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Adres</h3>
+                            <p>Leuvensestraat 78<br>3300 Tienen</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Telefoon</h3>
+                            <p><a href="tel:+32496876558">0496/87.65.58</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p><a href="mailto:info@diamondbarber.be">info@diamondbarber.be</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Openingsuren</h3>
+                            <p>Ma - Za: 09:00 - 18:00<br>Zo: Gesloten</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Simpel contactformulier (werkt nog niet, maar ziet er goed uit) -->
+                <div class="contact-form">
+                    <h3>Stuur een bericht</h3>
+                    <form id="contactForm">
+                        <input type="text" placeholder="Uw naam" required>
+                        <input type="email" placeholder="Uw email" required>
+                        <input type="tel" placeholder="Telefoonnummer">
+                        <textarea placeholder="Uw bericht" rows="4" required></textarea>
+                        <button type="submit" class="btn">Verstuur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Maps Embed -->
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2521.5800123456789!2d4.9378!3d50.8097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDQ4JzM0LjkiTiA0wrA1NicyMC4yIkU!5e0!3m2!1snl!2sbe!4v1234567890" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- Footer -->
     <footer>
-        <p>© 2024 - Mijn Naam</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DIAMOND BARBER</h3>
+                    <p>Uw premium kapper in Tienen</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Volg ons</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Diamond Barber - Alle rechten voorbehouden</p>
+            </div>
+        </div>
     </footer>
 
-    <!-- Link naar ons JavaScript bestand (die we zo gaan maken) -->
     <script src="script.js"></script>
 </body>
 </html>
