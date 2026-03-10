@@ -1,60 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<title>Roblox Avatar Viewer</title>
-<style>
-body { font-family: Arial; background:#1a1a1a; color:white; display:flex; justify-content:center; align-items:center; height:100vh; }
-.container { text-align:center; background:#222; padding:30px; border-radius:12px; }
-input, button { padding:10px; border-radius:6px; border:none; margin:5px; }
-button { background:#4a90e2; color:white; cursor:pointer; }
-img { margin-top:20px; border-radius:12px; width:150px; height:150px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn Coole Website</title>
+    <!-- Link naar ons CSS bestand (die we zo gaan maken) -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-<h2>Roblox Avatar Viewer</h2>
-<input type="text" id="username" placeholder="Roblox username">
-<button onclick="zoekAvatar()">Zoek Avatar</button>
-<div id="resultaat">
-<img id="avatar" src="" alt="">
-<p id="status"></p>
-</div>
-</div>
+    <header>
+        <h1>Welkom op mijn website!</h1>
+        <p>Dit is mijn eerste zelfgemaakte site.</p>
+    </header>
 
-<script>
-async function zoekAvatar() {
-    const username = document.getElementById("username").value.trim();
-    const status = document.getElementById("status");
-    const avatar = document.getElementById("avatar");
-    status.textContent = "Zoeken...";
-    avatar.src = "";
+    <main>
+        <section id="over-mij">
+            <h2>Over Mij</h2>
+            <p>Hoi! Ik ben een beginnende webdeveloper en dit is mijn portfolio. Ik leer HTML, CSS en JavaScript.</p>
+            <img src="https://via.placeholder.com/150" alt="Een tijdelijke afbeelding">
+        </section>
 
-    if (!username) { status.textContent = "Typ een username!"; return; }
+        <section id="projecten">
+            <h2>Mijn Projecten</h2>
+            <ul>
+                <li>Project 1: Een coole rekenmachine</li>
+                <li>Project 2: Een portfolio website</li>
+            </ul>
+        </section>
+    </main>
 
-    try {
-        // Roblox heeft een endpoint om userId van username te krijgen
-        const res = await fetch(`https://api.roblox.com/users/get-by-username?username=${username}`);
-        const data = await res.json();
+    <footer>
+        <p>© 2024 - Mijn Naam</p>
+    </footer>
 
-        if (data.success === false || !data.Id) {
-            status.textContent = "Gebruiker niet gevonden 😢";
-            return;
-        }
-
-        const userId = data.Id;
-        // Avatar image
-        const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=150&height=150&format=png`;
-
-        avatar.src = avatarUrl;
-        status.textContent = "✅ Avatar gevonden!";
-    } catch (err) {
-        console.error(err);
-        status.textContent = "Er ging iets fout ⚠️";
-    }
-}
-</script>
-
+    <!-- Link naar ons JavaScript bestand (die we zo gaan maken) -->
+    <script src="script.js"></script>
 </body>
 </html>
