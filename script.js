@@ -26,35 +26,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function drawParticles() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#7dd3fc';
-            
-            particles.forEach(p => {
-                // Flikker-effect
-                p.opacity += p.blinkRate;
-                if(p.opacity >= 1 || p.opacity <= 0) p.blinkRate *= -1;
-                
-                // Beweging
-                p.y += p.speedY;
-                p.x += p.speedX;
-                
-                // Reset als ze buiten beeld vallen
-                if(p.y < 0) p.y = height;
-                if(p.x < 0) p.x = width;
-                if(p.x > width) p.x = 0;
+    // Check of het canvas in beeld is
+    const rect = canvas.getBoundingClientRect();
+    const isVisible = (rect.top < window.innerHeight && rect.bottom > 0);
 
-                // Teken deeltje met glow
-                ctx.globalAlpha = Math.abs(p.opacity) * 0.8;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#38bdf8';
-                ctx.fill();
-                ctx.shadowBlur = 0; // reset
-            });
-            ctx.globalAlpha = 1;
-            requestAnimationFrame(drawParticles);
-        }
+    if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#7dd3fc';
+        
+        particles.forEach(p => {
+            p.opacity += p.blinkRate;
+            if(p.opacity >= 1 || p.opacity <= 0) p.blinkRate *= -1;
+            
+            p.y += p.speedY;
+            p.x += p.speedX;
+            
+            if(p.y < 0) p.y = height;
+            if(p.x < 0) p.x = width;
+            if(p.x > width) p.x = 0;
+
+            ctx.globalAlpha = Math.abs(p.opacity) * 0.8;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+    // Gebruik requestAnimationFrame altijd, maar teken alleen als isVisible true is
+    requestAnimationFrame(drawParticles);
+}
 
         initCanvas();
         drawParticles();
