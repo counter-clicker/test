@@ -62,13 +62,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- NAVBAR SCROLL EFFECT ---
     const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 20) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+    window.addEventListener('scroll', () => {
+    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+    const lightRange = 200; // Hoe ver het licht effect heeft op de tekst
+    
+    // Selecteer alle teksten die moeten reageren
+    const textElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow');
+
+    textElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const distanceFromNav = rect.top - navbarHeight;
+
+        // Als de tekst dichtbij de onderkant van de balk komt
+        if (distanceFromNav < lightRange && distanceFromNav > -100) {
+            el.classList.add('light-reactive');
+            
+            // Bereken de sterkte van het licht (hoe dichterbij, hoe feller)
+            let intensity = 1 - (Math.abs(distanceFromNav) / lightRange);
+            if (intensity < 0) intensity = 0;
+
+            // Bereken de schaduw-afstand (licht komt van boven, dus schaduw gaat naar beneden)
+            let shadowDist = (1 - intensity) * 10; 
+
+            el.style.setProperty('--shadow-dist', `${shadowDist}px`);
+            el.style.setProperty('--shadow-opacity', intensity * 0.6);
+            
+            // Geef de tekst zelf ook een beetje een blauwe tint als het licht erop schijnt
+            el.style.color = `rgba(255, 255, 255, ${1})`;
+            el.style.filter = `drop-shadow(0 0 ${intensity * 5}px rgba(0, 242, 255, 0.8))`;
+        } else {
+            // Reset als de tekst ver weg is
+            el.style.setProperty('--shadow-opacity', '0');
+            el.style.filter = 'none';
+        }
+    });
 });
     // --- SMOOTH SCROLL ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
