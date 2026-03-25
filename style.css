@@ -55,43 +55,48 @@ h1, h2, h3, .logo {
     font-family: var(--font-heading);
 }
 
-/* --- GLOSSY NAVBAR --- */
+/* --- ULTRA MATT GLASS NAVBAR --- */
 .navbar {
-    background: rgba(5, 5, 5, 0.6); 
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    /* We gebruiken wit met heel lage opacity voor die 'frosty' look */
+    background: rgba(255, 255, 255, 0.03); 
+    
+    /* DIT MAAKT HET MAT: De blur moet hoog zijn voor echt matglas */
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(125, 211, 252, 0.15);
-    padding: 0.5rem 0; /* Iets minder padding voor een strakkere look */
-    transition: all 0.4s ease;
+    
+    /* Een flinterdun lichtrandje aan de onderkant voor die diamant-vibe */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    padding: 1rem 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar.scrolled {
-    background: rgba(5, 5, 5, 0.85);
-    border-bottom: 1px solid rgba(125, 211, 252, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 0.3rem 0; /* Wordt iets smaller tijdens scrollen */
+    /* Bij het scrollen wordt het glas ietsje witter/matter voor leesbaarheid */
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* DIT GING FOUT: De container moet de elementen verspreiden */
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    display: flex;             /* Zet logo en menu naast elkaar */
-    justify-content: space-between; /* Duwt ze naar de uiterste kanten */
-    align-items: center;       /* Zet ze verticaal in het midden */
-    height: 70px;              /* Vaste hoogte voor stabiliteit */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
 }
 
-.logo h1 {
-    font-size: 1.6rem;
-    letter-spacing: 2px;
-    color: #fff;
-    margin: 0;
+/* Zorg dat je tekst wit blijft en een kleine schaduw heeft om op te vallen op het glas */
+.logo h1, .nav-menu a {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .logo span {
