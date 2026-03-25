@@ -57,38 +57,88 @@ h1, h2, h3, .logo {
 
 /* --- GLOSSY NAVBAR --- */
 .navbar {
-    /* De basis: een heel licht doorzichtige donkere kleur */
     background: rgba(5, 5, 5, 0.6); 
-    
-    /* DIT IS DE BELANGRIJKSTE REGEL VOOR MAT GLAS */
     backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%); /* Voor Safari support */
-    
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    
-    /* Een heel dun diamant-achtig lijntje aan de onderkant */
     border-bottom: 1px solid rgba(125, 211, 252, 0.15);
-    
-    padding: 1rem 0;
+    padding: 0.5rem 0; /* Iets minder padding voor een strakkere look */
     transition: all 0.4s ease;
 }
 
-/* Wanneer je scrollt, wordt het glas iets donkerder voor betere leesbaarheid */
 .navbar.scrolled {
     background: rgba(5, 5, 5, 0.85);
     border-bottom: 1px solid rgba(125, 211, 252, 0.4);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 0.3rem 0; /* Wordt iets smaller tijdens scrollen */
 }
 
-/* Zorg dat de tekst in de navbar altijd goed leesbaar blijft op het glas */
+/* DIT GING FOUT: De container moet de elementen verspreiden */
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;             /* Zet logo en menu naast elkaar */
+    justify-content: space-between; /* Duwt ze naar de uiterste kanten */
+    align-items: center;       /* Zet ze verticaal in het midden */
+    height: 70px;              /* Vaste hoogte voor stabiliteit */
+}
+
+.logo h1 {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: #fff;
+    margin: 0;
+}
+
+.logo span {
+    color: var(--diamond-core);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem; /* Ruimte tussen de knoppen */
+    margin: 0;
+    padding: 0;
+}
+
 .nav-menu a {
     color: #ffffff;
+    text-decoration: none;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     font-weight: 500;
+    font-size: 0.9rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+/* De glanzende indicator onder de actieve link */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--diamond-core);
+    box-shadow: 0 0 10px var(--diamond-core);
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+.nav-menu a:hover {
+    color: var(--diamond-core);
 }
 
 /* --- HERO SECTIE --- */
