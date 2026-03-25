@@ -57,85 +57,38 @@ h1, h2, h3, .logo {
 
 /* --- GLOSSY NAVBAR --- */
 .navbar {
-    background: rgba(5, 5, 5, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* De basis: een heel licht doorzichtige donkere kleur */
+    background: rgba(5, 5, 5, 0.6); 
+    
+    /* DIT IS DE BELANGRIJKSTE REGEL VOOR MAT GLAS */
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%); /* Voor Safari support */
+    
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(125, 211, 252, 0.1);
+    
+    /* Een heel dun diamant-achtig lijntje aan de onderkant */
+    border-bottom: 1px solid rgba(125, 211, 252, 0.15);
+    
+    padding: 1rem 0;
     transition: all 0.4s ease;
 }
 
+/* Wanneer je scrollt, wordt het glas iets donkerder voor betere leesbaarheid */
 .navbar.scrolled {
-    background: rgba(5, 5, 5, 0.9);
-    border-bottom: 1px solid rgba(125, 211, 252, 0.3);
-    box-shadow: 0 10px 30px rgba(2, 132, 199, 0.2);
+    background: rgba(5, 5, 5, 0.85);
+    border-bottom: 1px solid rgba(125, 211, 252, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.2rem 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo h1, .logo h2 {
-    font-size: 1.8rem;
-    letter-spacing: 3px;
-    color: #fff;
-    font-weight: 700;
-}
-
-.logo span {
-    background: linear-gradient(135deg, var(--diamond-light), var(--diamond-core));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 400;
-    font-style: italic;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2.5rem;
-}
-
+/* Zorg dat de tekst in de navbar altijd goed leesbaar blijft op het glas */
 .nav-menu a {
-    color: var(--text-main);
-    text-decoration: none;
-    font-size: 0.9rem;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     font-weight: 500;
     letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.nav-menu a:after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 1px;
-    background: var(--diamond-core);
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px var(--diamond-core);
-}
-
-.nav-menu a:hover:after, .nav-menu a.active:after {
-    width: 100%;
-}
-
-.nav-menu a:hover, .nav-menu a.active {
-    color: var(--diamond-core);
-    text-shadow: 0 0 10px rgba(125, 211, 252, 0.4);
 }
 
 /* --- HERO SECTIE --- */
