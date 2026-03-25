@@ -76,6 +76,22 @@ h1, h2, h3, .logo {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* De LED-strip onder de navbar */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -15px; /* De straal begint net onder de balk */
+    left: 0;
+    width: 100%;
+    height: 100px; /* Hoe ver het licht naar beneden schijnt */
+    background: linear-gradient(to bottom, 
+        rgba(0, 242, 255, 0.3) 0%, 
+        rgba(0, 242, 255, 0.1) 40%, 
+        transparent 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
 .navbar.scrolled {
     /* Bij het scrollen wordt het glas ietsje witter/matter voor leesbaarheid */
     background: rgba(255, 255, 255, 0.08);
