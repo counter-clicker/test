@@ -1,7 +1,77 @@
-// Wacht tot de pagina geladen is
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Smooth scroll voor navigatielinks
+    // --- DIAMOND DUST PARTICLE SYSTEM (LUXE EFFECT) ---
+    const canvas = document.getElementById('diamond-dust');
+    if(canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            
+            // Creëer 80 diamant stofdeeltjes
+            for(let i = 0; i < 80; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2 + 0.5,
+                    speedY: Math.random() * 0.5 - 1, // Zweeft langzaam omhoog
+                    speedX: Math.random() * 0.5 - 0.25,
+                    opacity: Math.random(),
+                    blinkRate: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#7dd3fc';
+            
+            particles.forEach(p => {
+                // Flikker-effect
+                p.opacity += p.blinkRate;
+                if(p.opacity >= 1 || p.opacity <= 0) p.blinkRate *= -1;
+                
+                // Beweging
+                p.y += p.speedY;
+                p.x += p.speedX;
+                
+                // Reset als ze buiten beeld vallen
+                if(p.y < 0) p.y = height;
+                if(p.x < 0) p.x = width;
+                if(p.x > width) p.x = 0;
+
+                // Teken deeltje met glow
+                ctx.globalAlpha = Math.abs(p.opacity) * 0.8;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#38bdf8';
+                ctx.fill();
+                ctx.shadowBlur = 0; // reset
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawParticles);
+        }
+
+        initCanvas();
+        drawParticles();
+        window.addEventListener('resize', initCanvas);
+    }
+
+    // --- NAVBAR SCROLL EFFECT ---
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // --- SMOOTH SCROLL ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -15,117 +85,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect - Smooth fade
-    const navbar = document.querySelector('.navbar');
-    let ticking = false;
-    
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            requestAnimationFrame(function() {
-                const scrollPercent = Math.min(window.scrollY / 500, 1);
-                if (window.scrollY > 20) {
-                    navbar.style.background = `linear-gradient(135deg, rgba(26, 26, 26, ${0.95 + scrollPercent * 0.03}), rgba(10, 10, 10, ${0.98 + scrollPercent * 0.01}))`;
-                    navbar.style.boxShadow = `0 5px ${15 + scrollPercent * 15}px rgba(56, 189, 248, ${0.05 + scrollPercent * 0.1})`;
-                } else {
-                    navbar.style.background = 'linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(15, 15, 15, 0.98))';
-                    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.2)';
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
+    // --- LUXURY FADE-IN OBSERVER ---
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
 
-    // SECTIE FADE EFFECT - Luxe overgangen
-    const sections = document.querySelectorAll('section');
-    
-    // Observer voor fade effect bij scrollen
-    const fadeObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Voeg fade class toe wanneer sectie in beeld komt
-                entry.target.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target); // Animate only once
             }
         });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    // Zet initiële stijlen voor fade
-    sections.forEach((section, index) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        fadeObserver.observe(section);
-        
-        // Stagger effect - elke sectie komt iets later
-        setTimeout(() => {
-            if (section.getBoundingClientRect().top < window.innerHeight) {
-                section.style.opacity = '1';
-                section.style.transform = 'translateY(0)';
-            }
-        }, index * 100);
+    }, observerOptions);
+
+    // Initialiseer elementen voor fade
+    const fadeElements = document.querySelectorAll('.premium-card, .section-title, .over-image');
+    fadeElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        observer.observe(el);
     });
 
-    // Contactformulier afhandeling
+    // --- CONTACT FORM ---
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const naam = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const bericht = this.querySelector('textarea').value;
-            
-            if (naam && email && bericht) {
-                alert('💎✨ Bedankt voor uw bericht! We nemen zo snel mogelijk contact met u op. ✨💎');
-                this.reset();
-            } else {
-                alert('💎 Vul alstublieft alle verplichte velden in. 💎');
-            }
+            alert('💎 Aanvraag succesvol ontvangen! Een van onze master barbers neemt spoedig contact met u op.');
+            this.reset();
         });
     }
-
-    // Active nav link bij scrollen
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    let scrollTimeout;
-    
-    window.addEventListener('scroll', function() {
-        if (scrollTimeout) return;
-        
-        scrollTimeout = setTimeout(function() {
-            let current = '';
-            const scrollPosition = window.scrollY + 150;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-            
-            scrollTimeout = null;
-        }, 50);
-    });
-
-    // Diamant glitter effect op scroll
-    const body = document.body;
-    window.addEventListener('scroll', function() {
-        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        const intensity = scrollPercent * 0.1;
-        body.style.background = `linear-gradient(135deg, 
-            rgba(245, 247, 250, ${1 - intensity}), 
-            rgba(233, 236, 239, ${1 - intensity * 0.5}))`;
-    });
 });
