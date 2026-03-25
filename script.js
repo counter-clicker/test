@@ -1,7 +1,7 @@
 // Wacht tot de pagina geladen is
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Smooth scroll voor navigatielinks (passief voor betere performance)
+    // Smooth scroll voor navigatielinks
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -15,24 +15,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect - OPTIMIZED (geen repaints)
+    // Navbar scroll effect - Smooth fade
     const navbar = document.querySelector('.navbar');
     let ticking = false;
     
     window.addEventListener('scroll', function() {
         if (!ticking) {
             requestAnimationFrame(function() {
-                if (window.scrollY > 10) {
-                    navbar.style.background = 'rgba(26, 26, 26, 0.98)';
-                    navbar.style.boxShadow = '0 5px 20px rgba(56, 189, 248, 0.1)';
+                const scrollPercent = Math.min(window.scrollY / 500, 1);
+                if (window.scrollY > 20) {
+                    navbar.style.background = `linear-gradient(135deg, rgba(26, 26, 26, ${0.95 + scrollPercent * 0.03}), rgba(10, 10, 10, ${0.98 + scrollPercent * 0.01}))`;
+                    navbar.style.boxShadow = `0 5px ${15 + scrollPercent * 15}px rgba(56, 189, 248, ${0.05 + scrollPercent * 0.1})`;
                 } else {
-                    navbar.style.background = 'rgba(26, 26, 26, 0.95)';
-                    navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                    navbar.style.background = 'linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(15, 15, 15, 0.98))';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.2)';
                 }
                 ticking = false;
             });
             ticking = true;
         }
+    });
+
+    // SECTIE FADE EFFECT - Luxe overgangen
+    const sections = document.querySelectorAll('section');
+    
+    // Observer voor fade effect bij scrollen
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Voeg fade class toe wanneer sectie in beeld komt
+                entry.target.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Zet initiële stijlen voor fade
+    sections.forEach((section, index) => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        fadeObserver.observe(section);
+        
+        // Stagger effect - elke sectie komt iets later
+        setTimeout(() => {
+            if (section.getBoundingClientRect().top < window.innerHeight) {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }
+        }, index * 100);
     });
 
     // Contactformulier afhandeling
@@ -46,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const bericht = this.querySelector('textarea').value;
             
             if (naam && email && bericht) {
-                alert('✨ Bedankt voor uw bericht! We nemen zo snel mogelijk contact met u op. ✨');
+                alert('💎✨ Bedankt voor uw bericht! We nemen zo snel mogelijk contact met u op. ✨💎');
                 this.reset();
             } else {
                 alert('💎 Vul alstublieft alle verplichte velden in. 💎');
@@ -54,8 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Active nav link bij scrollen - OPTIMIZED
-    const sections = document.querySelectorAll('section');
+    // Active nav link bij scrollen
     const navLinks = document.querySelectorAll('.nav-menu a');
     let scrollTimeout;
     
@@ -84,5 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             scrollTimeout = null;
         }, 50);
+    });
+
+    // Diamant glitter effect op scroll
+    const body = document.body;
+    window.addEventListener('scroll', function() {
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        const intensity = scrollPercent * 0.1;
+        body.style.background = `linear-gradient(135deg, 
+            rgba(245, 247, 250, ${1 - intensity}), 
+            rgba(233, 236, 239, ${1 - intensity * 0.5}))`;
     });
 });
