@@ -1,499 +1,151 @@
-/* --- LUXURY THEME VARIABLES --- */
 :root {
-    --bg-dark: #050505;
-    --bg-panel: rgba(20, 20, 22, 0.7);
-    --diamond-light: #e0f2fe;
-    --diamond-core: #7dd3fc;
-    --diamond-deep: #0284c7;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Montserrat', sans-serif;
-}
-
-/* Algemene reset en stijlen */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    --deep-black: #050505;
+    --diamond-glow: #00f2ff; /* Feller, minder baby-blauw */
+    --silver: #e2e8f0;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(0, 242, 255, 0.2);
 }
 
 body {
-    font-family: var(--font-body);
-    line-height: 1.6;
-    color: var(--text-main);
-    background-color: var(--bg-dark);
-    position: relative;
+    background-color: var(--deep-black);
+    color: white;
+    font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
 }
 
-/* Subtiele geometrische diamant achtergrond */
-body::before {
-    content: '';
+/* --- ANIMATED DIAMOND BACKGROUND (High FPS) --- */
+.diamond-bg {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 50px 50px;
-    z-index: -2;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
+}
+
+/* De glinstering die over het scherm beweegt zonder lag */
+.diamond-bg::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation: sparkle 60s linear infinite;
+    opacity: 0.3;
     pointer-events: none;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    position: relative;
-    z-index: 1;
+@keyframes sparkle {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-h1, h2, h3, .logo {
-    font-family: var(--font-heading);
-}
-
-/* --- GLOSSY NAVBAR --- */
-.navbar {
-    background: rgba(5, 5, 5, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(125, 211, 252, 0.1);
-    transition: all 0.4s ease;
-}
-
-.navbar.scrolled {
-    background: rgba(5, 5, 5, 0.9);
-    border-bottom: 1px solid rgba(125, 211, 252, 0.3);
-    box-shadow: 0 10px 30px rgba(2, 132, 199, 0.2);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.2rem 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo h1, .logo h2 {
-    font-size: 1.8rem;
-    letter-spacing: 3px;
-    color: #fff;
-    font-weight: 700;
-}
-
-.logo span {
-    background: linear-gradient(135deg, var(--diamond-light), var(--diamond-core));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 400;
-    font-style: italic;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2.5rem;
-}
-
-.nav-menu a {
-    color: var(--text-main);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.nav-menu a:after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 1px;
-    background: var(--diamond-core);
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px var(--diamond-core);
-}
-
-.nav-menu a:hover:after, .nav-menu a.active:after {
-    width: 100%;
-}
-
-.nav-menu a:hover, .nav-menu a.active {
-    color: var(--diamond-core);
-    text-shadow: 0 0 10px rgba(125, 211, 252, 0.4);
-}
-
-/* --- HERO SECTIE --- */
-.hero {
-    height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600') center/cover no-repeat;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.9) 100%);
-    z-index: 1;
-}
-
-#diamond-dust {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 3;
-    max-width: 800px;
-    padding: 0 20px;
-}
-
-.diamond-text {
-    font-size: 4.5rem;
-    margin-bottom: 1rem;
-    letter-spacing: 5px;
-    color: transparent;
-    background: linear-gradient(to bottom, #ffffff 0%, #b8e6fe 50%, #7dd3fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.4));
-    animation: pulseGlow 4s infinite alternate;
-}
-
-@keyframes pulseGlow {
-    0% { filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.3)); }
-    100% { filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.7)); }
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    color: var(--diamond-light);
-    margin-bottom: 2.5rem;
-    text-transform: uppercase;
-    font-weight: 300;
-}
-
-/* --- LUXURY BUTTONS --- */
-.btn-glow {
-    display: inline-block;
-    padding: 1rem 2.5rem;
-    background: rgba(2, 132, 199, 0.1);
-    color: var(--diamond-light);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid var(--diamond-core);
-    border-radius: 4px; /* Scherpe randen = diamantslijpsel */
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1) inset;
-}
-
-.btn-glow:hover {
-    background: var(--diamond-core);
-    color: #000;
-    box-shadow: 0 0 30px rgba(125, 211, 252, 0.6);
-    transform: translateY(-2px);
-}
-
-.w-100 { width: 100%; }
-
-/* --- PREMIUM CARDS (Glassmorphism) --- */
-.premium-card {
-    background: var(--bg-panel);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(125, 211, 252, 0.2);
-    border-left: 1px solid rgba(125, 211, 252, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 2.5rem;
-    transition: all 0.4s ease;
-    position: relative;
-}
-
-.premium-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 8px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(125, 211, 252, 0.4), transparent 50%, transparent);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.premium-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(125, 211, 252, 0.1);
-}
-
-.premium-card:hover::after {
-    opacity: 1;
-}
-
-/* --- SECTIES --- */
-section {
-    padding: 120px 0;
-    position: relative;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 3rem;
-    margin-bottom: 4rem;
-    color: #fff;
-}
-
-.section-title span {
-    color: var(--diamond-core);
-    font-style: italic;
-    font-weight: 400;
-}
-
-/* Over Ons */
-.over-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-
-.over-text p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-}
-
-.kenmerken {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
-}
-
-.kenmerk {
-    text-align: center;
-    padding: 1.5rem 1rem;
-}
-
-.kenmerk i {
-    font-size: 2rem;
-    color: var(--diamond-core);
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.5));
-}
-
-.kenmerk span {
-    display: block;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.over-image {
-    position: relative;
-}
-
-.over-image img {
-    width: 100%;
-    border-radius: 4px;
-    filter: grayscale(20%) contrast(120%);
-    position: relative;
-    z-index: 2;
-}
-
-.image-glow {
-    position: absolute;
-    top: -20px; left: -20px; right: 20px; bottom: 20px;
-    border: 2px solid var(--diamond-core);
-    z-index: 1;
-    border-radius: 4px;
-    box-shadow: 0 0 30px rgba(125, 211, 252, 0.2);
-}
-
-/* Diensten */
+/* --- ONZE DIENSTEN (Symmetrisch & Gecentreerd) --- */
 .diensten-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
 }
 
 .dienst-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 40px 30px;
     text-align: center;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Houdt inhoud en prijs uit elkaar */
+    min-height: 350px; /* Zorgt dat alle kaarten even groot zijn */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* De glans-animatie bij hover */
+.dienst-card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 50%;
+    height: 300%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    transition: 0.6s;
+}
+
+.dienst-card:hover::before {
+    left: 150%;
+    top: 0;
+}
+
+.dienst-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 242, 255, 0.15);
+    border-color: var(--diamond-glow);
 }
 
 .dienst-card i {
-    font-size: 2.5rem;
-    color: var(--diamond-core);
-    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    color: var(--diamond-glow);
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px var(--diamond-glow));
 }
 
 .dienst-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.dienst-card p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
 }
 
 .prijs {
-    font-family: var(--font-heading);
-    font-size: 2rem !important;
-    color: var(--diamond-light) !important;
-    margin-top: 1.5rem;
-    display: inline-block;
-    border-bottom: 1px solid var(--diamond-core);
-}
-
-/* Contact */
-.contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-}
-
-.info-item {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.info-item i {
-    font-size: 1.5rem;
-    color: var(--diamond-core);
-    margin-top: 5px;
-}
-
-.info-item h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-}
-
-.info-item p, .info-item a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.info-item a:hover {
-    color: var(--diamond-core);
-}
-
-.highlight {
-    color: var(--diamond-core);
-}
-
-.contact-form h3 {
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    font-size: 2rem;
+    font-weight: bold;
     color: white;
-    font-family: var(--font-body);
-    transition: all 0.3s ease;
+    margin-top: auto; /* Duwt de prijs naar de bodem van de card */
+    padding-top: 20px;
+    text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: var(--diamond-core);
-    background: rgba(125, 211, 252, 0.05);
-    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1);
-}
-
-/* Map - Dark Mode Filter */
-.map {
-    line-height: 0;
-    filter: invert(90%) hue-rotate(180deg) contrast(100%) opacity(80%);
-}
-
-/* Footer */
-footer {
-    background: #020202;
-    padding: 60px 0 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.footer-content {
+/* --- CONTACT & AFSPRAAK VAKKEN --- */
+.contact-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
+    gap: 40px;
     flex-wrap: wrap;
-    gap: 2rem;
+    justify-content: center;
 }
 
-.footer-section h3 {
-    margin-bottom: 1.5rem;
-    color: #fff;
+.contact-card, .contact-form {
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); /* Diepe professionele schaduw */
+    flex: 1;
+    min-width: 350px;
+    transition: all 0.5s ease;
 }
 
-.social-links a {
-    color: var(--text-muted);
-    font-size: 1.5rem;
-    margin-right: 1.5rem;
-    transition: all 0.3s ease;
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 20px;
+    transition: 0.3s;
 }
 
-.social-links a:hover {
-    color: var(--diamond-core);
-    filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.6));
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-menu { display: none; }
-    .diamond-text { font-size: 2.5rem; }
-    .over-content, .contact-content { grid-template-columns: 1fr; gap: 3rem; }
-    .kenmerken { grid-template-columns: 1fr; }
-    section { padding: 80px 0; }
+.contact-form input:focus {
+    border-color: var(--diamond-glow);
+    background: rgba(0, 242, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+    outline: none;
 }
