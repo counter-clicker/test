@@ -1,7 +1,7 @@
 // Wacht tot de pagina geladen is
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Smooth scroll voor navigatielinks
+    // Smooth scroll voor navigatielinks (passief voor betere performance)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -15,21 +15,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect - FADE (geen harde overgang)
+    // Navbar scroll effect - OPTIMIZED (geen repaints)
     const navbar = document.querySelector('.navbar');
+    let ticking = false;
+    
     window.addEventListener('scroll', function() {
-        let scrollPosition = window.scrollY;
-        let opacity = Math.min(scrollPosition / 200, 0.98);
-        let blurAmount = Math.min(5 + scrollPosition / 100, 15);
-        
-        if (scrollPosition > 10) {
-            navbar.style.background = `rgba(26, 26, 26, ${0.9 + opacity * 0.08})`;
-            navbar.style.backdropFilter = `blur(${blurAmount}px)`;
-            navbar.style.boxShadow = '0 5px 25px rgba(56, 189, 248, 0.15)';
-        } else {
-            navbar.style.background = 'rgba(26, 26, 26, 0.95)';
-            navbar.style.backdropFilter = 'blur(10px)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.2)';
+        if (!ticking) {
+            requestAnimationFrame(function() {
+                if (window.scrollY > 10) {
+                    navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+                    navbar.style.boxShadow = '0 5px 20px rgba(56, 189, 248, 0.1)';
+                } else {
+                    navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+                    navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
     });
 
@@ -52,44 +54,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Active nav link bij scrollen
+    // Active nav link bij scrollen - OPTIMIZED
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    let scrollTimeout;
+    
     window.addEventListener('scroll', function() {
-        let current = '';
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-menu a');
+        if (scrollTimeout) return;
         
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - 150)) {
-                current = section.getAttribute('id');
-            }
-        });
+        scrollTimeout = setTimeout(function() {
+            let current = '';
+            const scrollPosition = window.scrollY + 150;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Intersection Observer voor fade-in animaties
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            scrollTimeout = null;
+        }, 50);
     });
 });
