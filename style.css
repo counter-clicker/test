@@ -57,23 +57,17 @@ h1, h2, h3, .logo {
 
 /* --- ULTRA MATT GLASS NAVBAR --- */
 .navbar {
-    /* We gebruiken wit met heel lage opacity voor die 'frosty' look */
+    top: 0;         /* Zorgt dat hij de absolute bovenkant raakt */
+    left: 0;        /* Zorgt dat hij de linkerkant raakt */
+    width: 100%;    /* Vult de volledige breedte */
+    
+    /* ... rest van je bestaande code ... */
     background: rgba(255, 255, 255, 0.03); 
-    
-    /* DIT MAAKT HET MAT: De blur moet hoog zijn voor echt matglas */
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    
     position: fixed;
-    width: 100%;
-    top: 0;
     z-index: 1000;
-    
-    /* Een flinterdun lichtrandje aan de onderkant voor die diamant-vibe */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    
     padding: 1rem 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* De LED-strip onder de navbar */
