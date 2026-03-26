@@ -60,29 +60,32 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', initCanvas);
     }
 
-    // --- NAVBAR SCROLL EFFECT ---
-    const navbar = document.querySelector('.navbar');
+    // --- GEOPTIMALISEERD SCROLL EFFECT ---
+    let tick = false;
     window.addEventListener('scroll', () => {
-    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-    const lightRange = 200; // Hoe ver het licht effect heeft op de tekst
-    
-    // Selecteer alle teksten die moeten reageren
-    const textElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow');
+        if (!tick) {
+            window.requestAnimationFrame(() => {
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const lightRange = 200;
+                const textElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow');
 
-    textElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const distanceFromNav = rect.top - navbarHeight;
+                textElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    const distanceFromNav = rect.top - navbarHeight;
 
-        // Als de tekst dichtbij de onderkant van de balk komt
-        if (distanceFromNav < lightRange && distanceFromNav > -100) {
-            el.classList.add('light-reactive');
-            
-            // Bereken de sterkte van het licht (hoe dichterbij, hoe feller)
-            let intensity = 1 - (Math.abs(distanceFromNav) / lightRange);
-            if (intensity < 0) intensity = 0;
-
-            // Bereken de schaduw-afstand (licht komt van boven, dus schaduw gaat naar beneden)
-            let shadowDist = (1 - intensity) * 10; 
+                    if (distanceFromNav < lightRange && distanceFromNav > -100) {
+                        let intensity = 1 - (Math.abs(distanceFromNav) / lightRange);
+                        if (intensity < 0) intensity = 0;
+                        el.style.filter = `drop-shadow(0 0 ${intensity * 5}px rgba(0, 242, 255, 0.8))`;
+                    } else {
+                        el.style.filter = 'none';
+                    }
+                });
+                tick = false;
+            });
+            tick = true;
+        }
+    });
 
             el.style.setProperty('--shadow-dist', `${shadowDist}px`);
             el.style.setProperty('--shadow-opacity', intensity * 0.6);
