@@ -57,17 +57,11 @@ h1, h2, h3, .logo {
 
 /* --- ULTRA MATT GLASS NAVBAR --- */
 .navbar {
-    top: 0;         /* Zorgt dat hij de absolute bovenkant raakt */
-    left: 0;        /* Zorgt dat hij de linkerkant raakt */
-    width: 100%;    /* Vult de volledige breedte */
-    
-    /* ... rest van je bestaande code ... */
-    background: rgba(255, 255, 255, 0.03); 
-    backdrop-filter: blur(20px) saturate(180%);
-    position: fixed;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1rem 0;
+    /* ... je bestaande code ... */
+    transform: translateZ(0); /* Forceert hardware versnelling */
+    will-change: transform;
+    top: 0; 
+    left: 0;
 }
 
 /* De LED-strip onder de navbar */
@@ -536,4 +530,18 @@ footer {
     .over-content, .contact-content { grid-template-columns: 1fr; gap: 3rem; }
     .kenmerken { grid-template-columns: 1fr; }
     section { padding: 80px 0; }
+}
+
+/* Stopt het 'trekken' van de kaart tijdens scrollen */
+.map iframe {
+    pointer-events: none;
+}
+.map:hover iframe {
+    pointer-events: auto;
+}
+
+/* Maakt kaarten en tekst soepeler */
+.premium-card, .hero-content {
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
