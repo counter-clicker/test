@@ -11,17 +11,6 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
-/* Alle tekst die moet reageren */
-h1, h2, h3, p, .btn {
-    transition: text-shadow 0.1s linear; /* Ultra snelle reactie voor smooth gevoel */
-}
-
-/* Deze class wordt via JS aangestuurd */
-.light-reactive {
-    /* De schaduw wordt dynamisch aangepast via JS variabelen */
-    text-shadow: 0 var(--shadow-dist) 15px rgba(0, 242, 255, var(--shadow-opacity));
-}
-
 /* Algemene reset en stijlen */
 * {
     margin: 0;
