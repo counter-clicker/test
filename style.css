@@ -11,17 +11,18 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
-/* Alle tekst die moet reageren op het LED-licht */
+/* Alle tekst die moet reageren */
 h1, h2, h3, p, .btn {
-    transition: text-shadow 0.1s linear, color 0.3s ease, filter 0.2s ease;
+    transition: text-shadow 0.1s linear; /* Ultra snelle reactie voor smooth gevoel */
 }
 
+/* Deze class wordt via JS aangestuurd */
 .light-reactive {
-    /* De variabelen worden door JS ingevuld tijdens het scrollen */
+    /* De schaduw wordt dynamisch aangepast via JS variabelen */
     text-shadow: 0 var(--shadow-dist) 15px rgba(0, 242, 255, var(--shadow-opacity));
 }
 
-/* Algemene reset */
+/* Algemene reset en stijlen */
 * {
     margin: 0;
     padding: 0;
@@ -37,11 +38,14 @@ body {
     overflow-x: hidden;
 }
 
-/* Diamant grid achtergrond */
+/* Subtiele geometrische diamant achtergrond */
 body::before {
     content: '';
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
@@ -58,42 +62,52 @@ body::before {
     z-index: 1;
 }
 
-h1, h2, h3, .logo { font-family: var(--font-heading); }
+h1, h2, h3, .logo {
+    font-family: var(--font-heading);
+}
 
-/* --- ULTRA MATT GLASS NAVBAR + LED --- */
+/* --- ULTRA MATT GLASS NAVBAR --- */
 .navbar {
+    /* We gebruiken wit met heel lage opacity voor die 'frosty' look */
     background: rgba(255, 255, 255, 0.03); 
+    
+    /* DIT MAAKT HET MAT: De blur moet hoog zijn voor echt matglas */
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    
+    /* Een flinterdun lichtrandje aan de onderkant voor die diamant-vibe */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
     padding: 1rem 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* De LED-gloed onder de balk */
+/* De LED-strip onder de navbar */
 .navbar::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -15px; /* De straal begint net onder de balk */
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 100px; /* Hoe ver het licht naar beneden schijnt */
     background: linear-gradient(to bottom, 
-        rgba(0, 242, 255, 0.25) 0%, 
-        rgba(0, 242, 255, 0.05) 50%, 
+        rgba(0, 242, 255, 0.3) 0%, 
+        rgba(0, 242, 255, 0.1) 40%, 
         transparent 100%);
     pointer-events: none;
     z-index: -1;
 }
 
 .navbar.scrolled {
-    background: rgba(5, 5, 5, 0.8);
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(125, 211, 252, 0.4);
+    /* Bij het scrollen wordt het glas ietsje witter/matter voor leesbaarheid */
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -103,60 +117,440 @@ h1, h2, h3, .logo { font-family: var(--font-heading); }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: 70px;
 }
 
-.logo h1 { font-size: 1.8rem; color: #fff; letter-spacing: 2px; }
-.logo span { color: var(--diamond-core); font-style: italic; }
+/* Zorg dat je tekst wit blijft en een kleine schaduw heeft om op te vallen op het glas */
+.logo h1, .nav-menu a {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
-.nav-menu { display: flex; list-style: none; gap: 2.5rem; }
+.logo span {
+    color: var(--diamond-core);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem; /* Ruimte tussen de knoppen */
+    margin: 0;
+    padding: 0;
+}
+
 .nav-menu a {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    transition: 0.3s;
+    transition: color 0.3s ease;
+    position: relative;
 }
-.nav-menu a:hover { color: var(--diamond-core); text-shadow: 0 0 10px var(--diamond-core); }
 
-/* --- HERO & CONTENT --- */
+/* De glanzende indicator onder de actieve link */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--diamond-core);
+    box-shadow: 0 0 10px var(--diamond-core);
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+.nav-menu a:hover {
+    color: var(--diamond-core);
+}
+
+/* --- HERO SECTIE --- */
 .hero {
     height: 100vh;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600') center/cover;
+    background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600') center/cover no-repeat;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.9) 100%);
+    z-index: 1;
+}
+
+#diamond-dust {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    padding: 0 20px;
 }
 
 .diamond-text {
-    font-size: 5rem;
-    background: linear-gradient(to bottom, #fff, #7dd3fc);
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 5px;
+    color: transparent;
+    background: linear-gradient(to bottom, #ffffff 0%, #b8e6fe 50%, #7dd3fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
     filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.4));
+    animation: pulseGlow 4s infinite alternate;
 }
 
-/* Premium Kaarten */
+@keyframes pulseGlow {
+    0% { filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.3)); }
+    100% { filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.7)); }
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--diamond-light);
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+/* --- LUXURY BUTTONS --- */
+.btn-glow {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: rgba(2, 132, 199, 0.1);
+    color: var(--diamond-light);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--diamond-core);
+    border-radius: 4px; /* Scherpe randen = diamantslijpsel */
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1) inset;
+}
+
+.btn-glow:hover {
+    background: var(--diamond-core);
+    color: #000;
+    box-shadow: 0 0 30px rgba(125, 211, 252, 0.6);
+    transform: translateY(-2px);
+}
+
+.w-100 { width: 100%; }
+
+/* --- PREMIUM CARDS (Glassmorphism) --- */
 .premium-card {
     background: var(--bg-panel);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(125, 211, 252, 0.2);
+    border-left: 1px solid rgba(125, 211, 252, 0.2);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 3rem;
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 2.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.premium-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.4), transparent 50%, transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.premium-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(125, 211, 252, 0.1);
+}
+
+.premium-card:hover::after {
+    opacity: 1;
+}
+
+/* --- SECTIES --- */
+section {
+    padding: 120px 0;
+    position: relative;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 4rem;
+    color: #fff;
+}
+
+.section-title span {
+    color: var(--diamond-core);
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Over Ons */
+.over-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.over-text p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kenmerken {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.kenmerk {
+    text-align: center;
+    padding: 1.5rem 1rem;
+}
+
+.kenmerk i {
+    font-size: 2rem;
+    color: var(--diamond-core);
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.5));
+}
+
+.kenmerk span {
+    display: block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.over-image {
+    position: relative;
+}
+
+.over-image img {
+    width: 100%;
+    border-radius: 4px;
+    filter: grayscale(20%) contrast(120%);
+    position: relative;
+    z-index: 2;
+}
+
+.image-glow {
+    position: absolute;
+    top: -20px; left: -20px; right: 20px; bottom: 20px;
+    border: 2px solid var(--diamond-core);
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(125, 211, 252, 0.2);
+}
+
+/* Diensten */
+.diensten-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.dienst-card {
+    text-align: center;
+}
+
+.dienst-card i {
+    font-size: 2.5rem;
+    color: var(--diamond-core);
+    margin-bottom: 1.5rem;
+}
+
+.dienst-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.dienst-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.prijs {
+    font-family: var(--font-heading);
+    font-size: 2rem !important;
+    color: var(--diamond-light) !important;
+    margin-top: 1.5rem;
+    display: inline-block;
+    border-bottom: 1px solid var(--diamond-core);
+}
+
+/* Contact */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.info-item {
+    display: flex;
+    gap: 1.5rem;
     margin-bottom: 2rem;
 }
 
-/* Map Fix (Smooth scroll) */
-.map { background: #000; line-height: 0; }
-.map iframe { width: 100%; height: 450px; border: 0; opacity: 0.7; transition: 0.3s; }
-.map:hover iframe { opacity: 1; }
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--diamond-core);
+    margin-top: 5px;
+}
 
+.info-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-item p, .info-item a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.info-item a:hover {
+    color: var(--diamond-core);
+}
+
+.highlight {
+    color: var(--diamond-core);
+}
+
+.contact-form h3 {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: white;
+    font-family: var(--font-body);
+    transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--diamond-core);
+    background: rgba(125, 211, 252, 0.05);
+    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1);
+}
+
+/* --- GEOPTIMALISEERDE MAP SECTIE (VOOR HOGE FPS) --- */
+.map {
+    line-height: 0;
+    position: relative;
+    background: #050505; /* Donkere basis */
+    overflow: hidden;
+}
+
+/* We halen de 'filter' weg op de iframe zelf */
+.map iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+    opacity: 0.6; /* Maakt de kaart donkerder zonder zware berekeningen */
+    transition: opacity 0.3s ease;
+}
+
+.map:hover iframe {
+    opacity: 0.9;
+}
+
+/* --- CONTACT SECTIE PERFORMANCE FIX --- */
+.contact-form, .contact-info {
+    /* Voeg dit toe om hardware versnelling te forceren */
+    will-change: transform, opacity;
+    transform: translateZ(0); 
+    backface-visibility: hidden;
+}
+/* Footer */
 footer {
     background: #020202;
-    padding: 4rem 0;
-    text-align: center;
+    padding: 60px 0 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.social-links a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--diamond-core);
+    filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.6));
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-menu { display: none; }
+    .diamond-text { font-size: 2.5rem; }
+    .over-content, .contact-content { grid-template-columns: 1fr; gap: 3rem; }
+    .kenmerken { grid-template-columns: 1fr; }
+    section { padding: 80px 0; }
 }
