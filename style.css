@@ -244,18 +244,25 @@ h1, h2, h3, .logo {
 
 .w-100 { width: 100%; }
 
-/* --- PREMIUM CARDS (Glassmorphism) --- */
+/* --- PREMIUM CARDS (GEOPTIMALISEERD) --- */
 .premium-card {
-    background: var(--bg-panel);
+    /* We gebruiken een iets donkerdere kleur zonder blur voor betere FPS */
+    background: rgba(15, 15, 17, 0.95); 
+    
+    /* We halen backdrop-filter weg omdat dit de lag veroorzaakt */
+    /* backdrop-filter: blur(10px); <--- Dit was de boosdoener */
+    
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-top: 1px solid rgba(125, 211, 252, 0.2);
     border-left: 1px solid rgba(125, 211, 252, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-radius: 8px;
     padding: 2.5rem;
-    transition: all 0.4s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     position: relative;
+    
+    /* Forceert de videokaart om dit blokje te onthouden */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .premium-card::after {
@@ -551,4 +558,8 @@ footer {
 .premium-card, .hero-content {
     transform: translateZ(0);
     backface-visibility: hidden;
+}
+.map iframe {
+    /* Voorkomt dat de browser de kaart constant hertekent tijdens scrollen */
+    contain: strict;
 }
