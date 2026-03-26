@@ -57,11 +57,18 @@ h1, h2, h3, .logo {
 
 /* --- ULTRA MATT GLASS NAVBAR --- */
 .navbar {
-    /* ... je bestaande code ... */
-    transform: translateZ(0); /* Forceert hardware versnelling */
-    will-change: transform;
-    top: 0; 
+    position: fixed;
+    top: 0;
     left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.03); 
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0; /* Padding naar 0 om de hoogte strak te houden */
+    transform: translateZ(0); /* GPU versnelling */
+    will-change: transform;
 }
 
 /* De LED-strip onder de navbar */
