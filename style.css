@@ -79,34 +79,40 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* De LED-strip onder de navbar - SMOOTH KEGEL SPOTLIGHT ZONDER LIJNEN! */
+/* --- DE SPOTLIGHT FIX --- */
 .navbar::after {
     content: '';
     position: fixed;
-    top: 70px;
+    top: 70px; /* Start direct onder de navbar */
     left: 50%;
     transform: translateX(-50%);
-    width: 200%;
-    height: 600px;
-    background: 
-        /* Kern gradient - licht in het midden */
-        radial-gradient(ellipse 700px 350px at center top, 
-            rgba(0, 242, 255, 0.95) 0%,
-            rgba(0, 220, 255, 0.85) 8%,
-            rgba(0, 200, 255, 0.7) 16%,
-            rgba(0, 150, 255, 0.5) 30%,
-            rgba(0, 100, 255, 0.3) 50%,
-            rgba(0, 60, 255, 0.15) 70%,
-            rgba(0, 40, 255, 0.05) 85%,
-            transparent 100%);
+    
+    /* De grootte van de lichtstraal */
+    width: 1000px; 
+    height: 800px;
+    
+    /* De kleur en gloed van het licht */
+    background: radial-gradient(
+        circle at 50% 0%, 
+        rgba(0, 242, 255, 0.6) 0%, 
+        rgba(0, 150, 255, 0.2) 40%, 
+        transparent 70%
+    );
+
+    /* Dit maakt de kegelvorm (Spotlight shape) */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    
+    /* Dit zorgt dat de onderkant van de straal zacht vervaagt */
+    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
+    mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
+
     pointer-events: none;
-    z-index: 999;
-    filter: blur(35px);
-    box-shadow: 
-        0 0 250px rgba(0, 242, 255, 0.95),
-        0 0 400px rgba(0, 150, 255, 0.7),
-        inset 0 0 200px rgba(0, 242, 255, 0.7);
+    z-index: 2; /* Iets lager zetten zodat het OVER de tekst valt maar niet alles blokkeert */
+    
+    /* Extra blur voor een realistisch effect */
+    filter: blur(40px);
     mix-blend-mode: screen;
+    opacity: 0.8;
 }
 
 .navbar.scrolled {
