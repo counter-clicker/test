@@ -51,13 +51,74 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', initCanvas);
     }
 
-    // --- PARALLAX SCROLL EFFECT ---
-    const parallaxElements = document.querySelectorAll('section::before');
+    // --- DYNAMISCH LED LICHT EFFECT OP ELEMENTEN ---
+    const ledLight = document.querySelector('.navbar::after');
+    const allElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow, .premium-card, img');
+    
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        document.querySelectorAll('section').forEach((section, index) => {
-            const speed = 0.3 + (index * 0.05);
-            section.style.backgroundPosition = `0 ${scrollY * speed}px`;
+        const ledTop = 70 + scrollY;
+        const ledBottom = 270 + scrollY;
+
+        allElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const elTop = rect.top + scrollY;
+            const elCenter = elTop + rect.height / 2;
+
+            // Controleer of element onder het LED licht is
+            if (elCenter < ledBottom && elCenter > ledTop) {
+                // Bereken intensiteit - sterker wanneer dichter bij navbar
+                let distance = Math.abs(ledTop + 100 - elCenter);
+                let intensity = Math.max(0, 1 - (distance / 150));
+                
+                // REALISTISCH LICHT EFFECT
+                const glowColor = `rgba(0, 242, 255, ${intensity * 0.6})`;
+                const shadowColor = `rgba(0, 100, 255, ${intensity * 0.4})`;
+                
+                if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
+                    // TEKST GLOW - 3D effect
+                    el.style.textShadow = `
+                        0 0 10px ${glowColor},
+                        0 0 20px ${glowColor},
+                        0 5px 15px ${shadowColor},
+                        0 -5px 15px ${glowColor}
+                    `;
+                    el.style.color = `hsl(200, 100%, ${80 + intensity * 10}%)`;
+                }
+                
+                if (el.classList.contains('premium-card')) {
+                    // CARD GLOW - realistisch 3D
+                    el.style.boxShadow = `
+                        0 8px 32px rgba(0, 0, 0, 0.7),
+                        0 0 ${40 + intensity * 60}px rgba(0, 242, 255, ${0.3 + intensity * 0.4}),
+                        0 0 ${20 + intensity * 40}px rgba(0, 150, 255, ${0.2 + intensity * 0.3}),
+                        inset 0 1px 0 rgba(255, 255, 255, ${0.1 + intensity * 0.15})
+                    `;
+                    el.style.borderColor = `rgba(125, 211, 252, ${0.3 + intensity * 0.4})`;
+                }
+                
+                if (el.tagName === 'IMG') {
+                    // AFBEELDING GLOW - realistisch
+                    el.style.filter = `
+                        brightness(${1 + intensity * 0.3})
+                        drop-shadow(0 0 ${15 + intensity * 30}px rgba(0, 242, 255, ${intensity * 0.5}))
+                        drop-shadow(0 5px 20px rgba(0, 0, 0, 0.6))
+                    `;
+                }
+            } else {
+                // Reset wanneer niet onder licht
+                if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
+                    el.style.textShadow = '';
+                    el.style.color = '';
+                }
+                if (el.classList.contains('premium-card')) {
+                    el.style.boxShadow = '';
+                    el.style.borderColor = '';
+                }
+                if (el.tagName === 'IMG') {
+                    el.style.filter = '';
+                }
+            }
         });
     }, { passive: true });
 
