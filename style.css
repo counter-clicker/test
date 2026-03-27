@@ -11,7 +11,6 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
-/* Algemene reset en stijlen */
 * {
     margin: 0;
     padding: 0;
@@ -51,78 +50,69 @@ body::before {
     z-index: 1;
 }
 
-h1, h2, h3, p, .btn-glow {
-    font-family: var(--font-body);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-h1, h2, h3 {
+h1, h2, h3, .logo {
     font-family: var(--font-heading);
-    letter-spacing: 2px;
 }
 
-/* --- ULTRA MATT GLASS NAVBAR --- */
+/* --- SPOTLIGHT FADE ELEMENT --- */
+.spotlight-fade {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    width: 150%;
+    height: 800px;
+    background: radial-gradient(
+        ellipse 900px 450px at 50% 0%,
+        rgba(0, 242, 255, 1) 0%,
+        rgba(0, 230, 255, 0.92) 4%,
+        rgba(0, 210, 255, 0.85) 8%,
+        rgba(0, 190, 255, 0.78) 12%,
+        rgba(0, 170, 255, 0.7) 18%,
+        rgba(0, 150, 255, 0.6) 25%,
+        rgba(0, 120, 255, 0.5) 35%,
+        rgba(0, 100, 255, 0.4) 45%,
+        rgba(0, 80, 255, 0.3) 55%,
+        rgba(0, 60, 255, 0.2) 65%,
+        rgba(0, 40, 255, 0.1) 75%,
+        rgba(0, 20, 255, 0.03) 85%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 998;
+    filter: blur(60px);
+    -webkit-filter: blur(60px);
+    box-shadow: 
+        0 0 400px rgba(0, 242, 255, 1),
+        0 0 600px rgba(0, 150, 255, 0.9),
+        0 0 1000px rgba(0, 100, 255, 0.6),
+        inset 0 0 300px rgba(0, 242, 255, 0.9);
+    mix-blend-mode: screen;
+    will-change: filter;
+    backface-visibility: hidden;
+}
+
+/* --- NAVBAR --- */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.03); 
+    background: rgba(5, 5, 5, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0; /* Padding naar 0 om de hoogte strak te houden */
-    transform: translateZ(0); /* GPU versnelling */
+    border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+    padding: 0;
+    transform: translateZ(0);
     will-change: transform;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-}
-
-/* De LED-strip onder de navbar - PURE SMOOTH GLOW ZONDER LIJNEN! */
-.navbar::after {
-    content: '';
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%) translateZ(0);
-    width: 120%;
-    height: 700px;
-    /* ENKEL RADIAL - GEEN LINEAR! */
-    background: radial-gradient(
-        ellipse 800px 400px at 50% 0%,
-        rgba(0, 242, 255, 1) 0%,
-        rgba(0, 230, 255, 0.9) 5%,
-        rgba(0, 210, 255, 0.8) 10%,
-        rgba(0, 180, 255, 0.7) 15%,
-        rgba(0, 150, 255, 0.6) 25%,
-        rgba(0, 120, 255, 0.45) 35%,
-        rgba(0, 100, 255, 0.35) 45%,
-        rgba(0, 80, 255, 0.25) 55%,
-        rgba(0, 60, 255, 0.15) 65%,
-        rgba(0, 40, 255, 0.08) 75%,
-        rgba(0, 20, 255, 0.02) 85%,
-        transparent 100%
-    );
-    pointer-events: none;
-    z-index: 999;
-    filter: blur(50px);
-    -webkit-filter: blur(50px);
-    box-shadow: 
-        0 0 300px rgba(0, 242, 255, 1),
-        0 0 500px rgba(0, 150, 255, 0.8),
-        0 0 800px rgba(0, 100, 255, 0.5),
-        inset 0 0 300px rgba(0, 242, 255, 0.8);
-    mix-blend-mode: screen;
-    will-change: filter;
-    backface-visibility: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
 }
 
 .navbar.scrolled {
-    /* Bij het scrollen wordt het glas ietsje witter/matter voor leesbaarheid */
-    background: rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(5, 5, 5, 0.95);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
 .nav-container {
@@ -135,7 +125,6 @@ h1, h2, h3 {
     height: 70px;
 }
 
-/* Zorg dat je tekst wit blijft en een kleine schaduw heeft om op te vallen op het glas */
 .logo h1, .nav-menu a {
     color: #ffffff;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -150,7 +139,7 @@ h1, h2, h3 {
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem; /* Ruimte tussen de knoppen */
+    gap: 2rem;
     margin: 0;
     padding: 0;
 }
@@ -167,7 +156,6 @@ h1, h2, h3 {
     position: relative;
 }
 
-/* De glanzende indicator onder de actieve link */
 .nav-menu a::after {
     content: '';
     position: absolute;
@@ -202,7 +190,7 @@ h1, h2, h3 {
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.9) 100%);
+    background: radial-gradient(circle at center, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.95) 100%);
     z-index: 1;
 }
 
@@ -220,6 +208,18 @@ h1, h2, h3 {
     padding: 0 20px;
 }
 
+.hero-glow {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(125, 211, 252, 0.2) 0%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+}
+
 .diamond-text {
     font-size: 4.5rem;
     margin-bottom: 1rem;
@@ -228,16 +228,16 @@ h1, h2, h3 {
     background: linear-gradient(to bottom, #ffffff 0%, #b8e6fe 50%, #7dd3fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.4));
+    filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.6));
     animation: pulseGlow 4s infinite alternate;
 }
 
 @keyframes pulseGlow {
-    0% { filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.3)); }
-    100% { filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.7)); }
+    0% { filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.4)); }
+    100% { filter: drop-shadow(0 0 40px rgba(125, 211, 252, 0.8)); }
 }
 
-.hero-content p {
+.hero-subtitle {
     font-size: 1.2rem;
     letter-spacing: 2px;
     color: var(--diamond-light);
@@ -250,7 +250,7 @@ h1, h2, h3 {
 .btn-glow {
     display: inline-block;
     padding: 1.1rem 2.8rem;
-    background: rgba(2, 132, 199, 0.12);
+    background: rgba(2, 132, 199, 0.15);
     color: var(--diamond-light);
     text-decoration: none;
     text-transform: uppercase;
@@ -264,8 +264,8 @@ h1, h2, h3 {
     overflow: hidden;
     cursor: pointer;
     box-shadow: 
-        0 0 25px rgba(125, 211, 252, 0.2) inset,
-        0 0 20px rgba(125, 211, 252, 0.1);
+        0 0 25px rgba(125, 211, 252, 0.25) inset,
+        0 0 20px rgba(125, 211, 252, 0.15);
 }
 
 .btn-glow::before {
@@ -275,7 +275,7 @@ h1, h2, h3 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.5), transparent);
     transition: left 0.5s ease;
 }
 
@@ -287,23 +287,18 @@ h1, h2, h3 {
     background: var(--diamond-core);
     color: #000;
     box-shadow: 
-        0 0 50px rgba(125, 211, 252, 0.8),
-        0 0 100px rgba(0, 150, 255, 0.4),
-        0 10px 30px rgba(0, 0, 0, 0.5);
+        0 0 60px rgba(125, 211, 252, 0.9),
+        0 0 120px rgba(0, 150, 255, 0.6),
+        0 15px 40px rgba(0, 0, 0, 0.6);
     transform: translateY(-3px) scale(1.05);
     border-color: #ffffff;
 }
 
 .w-100 { width: 100%; }
 
-/* --- PREMIUM CARDS (GEOPTIMALISEERD) --- */
+/* --- PREMIUM CARDS --- */
 .premium-card {
-    /* We gebruiken een iets donkerdere kleur zonder blur voor betere FPS */
-    background: rgba(15, 15, 17, 0.95); 
-    
-    /* We halen backdrop-filter weg omdat dit de lag veroorzaakt */
-    /* backdrop-filter: blur(10px); <--- Dit was de boosdoener */
-    
+    background: rgba(15, 15, 17, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-top: 1px solid rgba(125, 211, 252, 0.3);
     border-left: 1px solid rgba(125, 211, 252, 0.3);
@@ -311,12 +306,8 @@ h1, h2, h3 {
     padding: 2.5rem;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     position: relative;
-    
-    /* Forceert de videokaart om dit blokje te onthouden */
     transform: translateZ(0);
     will-change: transform;
-    
-    /* STERKE SCHADUW EFFECT */
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.7),
         0 0 30px rgba(125, 211, 252, 0.08),
@@ -329,9 +320,9 @@ h1, h2, h3 {
     inset: 0;
     border-radius: 12px;
     background: linear-gradient(135deg, 
-        rgba(125, 211, 252, 0.1) 0%, 
+        rgba(125, 211, 252, 0.15) 0%, 
         transparent 50%, 
-        rgba(0, 150, 255, 0.05) 100%);
+        rgba(0, 150, 255, 0.08) 100%);
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
@@ -343,7 +334,7 @@ h1, h2, h3 {
     inset: 0;
     border-radius: 12px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(125, 211, 252, 0.5), transparent 50%, transparent);
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.6), transparent 50%, transparent);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -355,10 +346,10 @@ h1, h2, h3 {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
         0 20px 50px rgba(0, 0, 0, 0.8),
-        0 0 60px rgba(125, 211, 252, 0.3),
-        0 0 30px rgba(0, 150, 255, 0.2),
+        0 0 60px rgba(125, 211, 252, 0.4),
+        0 0 30px rgba(0, 150, 255, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: rgba(125, 211, 252, 0.5);
+    border-color: rgba(125, 211, 252, 0.6);
 }
 
 .premium-card:hover::before {
@@ -492,7 +483,7 @@ section::before {
     left: -100%;
     width: 300%;
     height: 300%;
-    background: radial-gradient(circle, rgba(125, 211, 252, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(125, 211, 252, 0.15) 0%, transparent 70%);
     transition: all 0.6s ease;
 }
 
@@ -618,20 +609,19 @@ section::before {
     transform: translateY(-2px);
 }
 
-/* --- GEOPTIMALISEERDE MAP SECTIE (VOOR HOGE FPS) --- */
+/* MAP SECTIE */
 .map {
     line-height: 0;
     position: relative;
-    background: #050505; /* Donkere basis */
+    background: #050505;
     overflow: hidden;
 }
 
-/* We halen de 'filter' weg op de iframe zelf */
 .map iframe {
     width: 100%;
     height: 450px;
     border: 0;
-    opacity: 0.6; /* Maakt de kaart donkerder zonder zware berekeningen */
+    opacity: 0.6;
     transition: opacity 0.3s ease;
 }
 
@@ -639,13 +629,17 @@ section::before {
     opacity: 0.9;
 }
 
-/* --- CONTACT SECTIE PERFORMANCE FIX --- */
-.contact-form, .contact-info {
-    /* Voeg dit toe om hardware versnelling te forceren */
-    will-change: transform, opacity;
-    transform: translateZ(0); 
-    backface-visibility: hidden;
+.map iframe {
+    pointer-events: none;
 }
+.map:hover iframe {
+    pointer-events: auto;
+}
+
+.map iframe {
+    contain: strict;
+}
+
 /* Footer */
 footer {
     background: linear-gradient(to bottom, #020202, #0a0a0a);
@@ -720,23 +714,5 @@ footer::before {
     .over-content, .contact-content { grid-template-columns: 1fr; gap: 3rem; }
     .kenmerken { grid-template-columns: 1fr; }
     section { padding: 80px 0; }
-}
-
-/* Stopt het 'trekken' van de kaart tijdens scrollen */
-.map iframe {
-    pointer-events: none;
-}
-.map:hover iframe {
-    pointer-events: auto;
-}
-
-/* Maakt kaarten en tekst soepeler */
-.premium-card, .hero-content {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-.map iframe {
-    /* Voorkomt dat de browser de kaart constant hertekent tijdens scrollen */
-    contain: strict;
 }
 
