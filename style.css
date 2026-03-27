@@ -79,48 +79,63 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* --- ULTRA REALISTIC VOLUMETRIC SPOTLIGHT --- */
+/* --- ULTRA REALISTIC VOLUMETRIC SPOTLIGHT v2 --- */
 .navbar::after {
     content: '';
     position: fixed;
-    top: 0; /* Begint bovenaan voor diepte */
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 1200px; 
-    height: 100vh; /* Schijnt helemaal naar beneden over de tekst */
-    
-    background: 
-        /* De felle witte kern (Hotspot) */
-        radial-gradient(ellipse at 50% 0%, 
-            rgba(255, 255, 255, 0.4) 0%, 
-            rgba(125, 211, 252, 0.2) 20%, 
-            transparent 60%),
-        /* De volumetrische straal (De kegel zelf) */
-        conic-gradient(from 165deg at 50% 0%, 
-            transparent 0deg, 
-            rgba(125, 211, 252, 0.05) 5deg, 
-            rgba(255, 255, 255, 0.15) 15deg, 
-            rgba(125, 211, 252, 0.05) 25deg, 
-            transparent 30deg);
+    width: 1450px;          /* iets breder → zachtere zijranden */
+    height: 100vh;
 
-    /* Realistische kegelvorm */
+    /* Meerdere lagen voor echte diepte + hotspot */
+    background: 
+        /* 1. Felle kern (hotspot bovenaan) */
+        radial-gradient(ellipse at 50% 8%, 
+            rgba(255, 255, 255, 0.48) 0%, 
+            rgba(125, 211, 252, 0.28) 22%, 
+            transparent 58%),
+
+        /* 2. Volumetrische kegel (super zachte straal) */
+        conic-gradient(from 172deg at 50% 0%, 
+            transparent 0deg,
+            transparent 9deg,
+            rgba(125, 211, 252, 0.035) 13deg,
+            rgba(255, 255, 255, 0.22) 17.5deg,
+            rgba(125, 211, 252, 0.035) 23deg,
+            transparent 39deg);
+
+    /* Kegelvorm */
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    
-    /* Zachte randen en vervaging onderaan */
+
+    /* Zeer zachte onderkant + fade */
     -webkit-mask-image: linear-gradient(to bottom, 
         rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.8) 40%, 
-        transparent 90%);
+        rgba(0,0,0,0.97) 25%, 
+        rgba(0,0,0,0.65) 68%, 
+        transparent 94%);
     mask-image: linear-gradient(to bottom, 
         rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.8) 40%, 
-        transparent 90%);
+        rgba(0,0,0,0.97) 25%, 
+        rgba(0,0,0,0.65) 68%, 
+        transparent 94%);
 
-    filter: blur(50px); /* Maakt het licht zacht en natuurlijk */
-    mix-blend-mode: screen; /* Laat de tekst eronder 'oplichten' */
+    filter: blur(82px);           /* Dit is de key voor echte spotlight-blur */
+    mix-blend-mode: screen;
     pointer-events: none;
     z-index: 5;
-    opacity: 0.7;
+    opacity: 0.82;
+}
+
+/* Extra glow op de tekst zodat het lijkt alsof het licht erop valt */
+.diamond-text {
+    text-shadow: 
+        0 0 20px rgba(125, 211, 252, 0.75),
+        0 0 45px rgba(255, 255, 255, 0.45),
+        0 0 80px rgba(125, 211, 252, 0.35);
+    z-index: 6;
+    position: relative;
 }
 
 /* De letters extra 'pop' geven als ze in de straal staan */
