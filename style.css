@@ -79,40 +79,54 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* --- DE SPOTLIGHT FIX --- */
+/* --- ULTRA REALISTIC VOLUMETRIC SPOTLIGHT --- */
 .navbar::after {
     content: '';
     position: fixed;
-    top: 70px; /* Start direct onder de navbar */
+    top: 0; /* Begint bovenaan voor diepte */
     left: 50%;
     transform: translateX(-50%);
+    width: 1200px; 
+    height: 100vh; /* Schijnt helemaal naar beneden over de tekst */
     
-    /* De grootte van de lichtstraal */
-    width: 1000px; 
-    height: 800px;
-    
-    /* De kleur en gloed van het licht */
-    background: radial-gradient(
-        circle at 50% 0%, 
-        rgba(0, 242, 255, 0.6) 0%, 
-        rgba(0, 150, 255, 0.2) 40%, 
-        transparent 70%
-    );
+    background: 
+        /* De felle witte kern (Hotspot) */
+        radial-gradient(ellipse at 50% 0%, 
+            rgba(255, 255, 255, 0.4) 0%, 
+            rgba(125, 211, 252, 0.2) 20%, 
+            transparent 60%),
+        /* De volumetrische straal (De kegel zelf) */
+        conic-gradient(from 165deg at 50% 0%, 
+            transparent 0deg, 
+            rgba(125, 211, 252, 0.05) 5deg, 
+            rgba(255, 255, 255, 0.15) 15deg, 
+            rgba(125, 211, 252, 0.05) 25deg, 
+            transparent 30deg);
 
-    /* Dit maakt de kegelvorm (Spotlight shape) */
+    /* Realistische kegelvorm */
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     
-    /* Dit zorgt dat de onderkant van de straal zacht vervaagt */
-    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
-    mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
+    /* Zachte randen en vervaging onderaan */
+    -webkit-mask-image: linear-gradient(to bottom, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,0.8) 40%, 
+        transparent 90%);
+    mask-image: linear-gradient(to bottom, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,0.8) 40%, 
+        transparent 90%);
 
+    filter: blur(50px); /* Maakt het licht zacht en natuurlijk */
+    mix-blend-mode: screen; /* Laat de tekst eronder 'oplichten' */
     pointer-events: none;
-    z-index: 2; /* Iets lager zetten zodat het OVER de tekst valt maar niet alles blokkeert */
-    
-    /* Extra blur voor een realistisch effect */
-    filter: blur(40px);
-    mix-blend-mode: screen;
-    opacity: 0.8;
+    z-index: 5;
+    opacity: 0.7;
+}
+
+/* De letters extra 'pop' geven als ze in de straal staan */
+.diamond-text {
+    text-shadow: 0 0 20px rgba(125, 211, 252, 0.6), 0 0 40px rgba(255, 255, 255, 0.3);
+    z-index: 6; /* Zorg dat de tekst interactie lijkt te hebben met het licht */
 }
 
 .navbar.scrolled {
