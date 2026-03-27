@@ -79,69 +79,43 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* --- ULTRA REALISTIC VOLUMETRIC SPOTLIGHT v2 --- */
+/* De LED-strip onder de navbar - PURE SMOOTH GLOW ZONDER LIJNEN! */
 .navbar::after {
     content: '';
     position: fixed;
-    top: 0;
+    top: 70px;
     left: 50%;
-    transform: translateX(-50%);
-    width: 1450px;          /* iets breder → zachtere zijranden */
-    height: 100vh;
-
-    /* Meerdere lagen voor echte diepte + hotspot */
-    background: 
-        /* 1. Felle kern (hotspot bovenaan) */
-        radial-gradient(ellipse at 50% 8%, 
-            rgba(255, 255, 255, 0.48) 0%, 
-            rgba(125, 211, 252, 0.28) 22%, 
-            transparent 58%),
-
-        /* 2. Volumetrische kegel (super zachte straal) */
-        conic-gradient(from 172deg at 50% 0%, 
-            transparent 0deg,
-            transparent 9deg,
-            rgba(125, 211, 252, 0.035) 13deg,
-            rgba(255, 255, 255, 0.22) 17.5deg,
-            rgba(125, 211, 252, 0.035) 23deg,
-            transparent 39deg);
-
-    /* Kegelvorm */
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-
-    /* Zeer zachte onderkant + fade */
-    -webkit-mask-image: linear-gradient(to bottom, 
-        rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.97) 25%, 
-        rgba(0,0,0,0.65) 68%, 
-        transparent 94%);
-    mask-image: linear-gradient(to bottom, 
-        rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.97) 25%, 
-        rgba(0,0,0,0.65) 68%, 
-        transparent 94%);
-
-    filter: blur(82px);           /* Dit is de key voor echte spotlight-blur */
-    mix-blend-mode: screen;
+    transform: translateX(-50%) translateZ(0);
+    width: 120%;
+    height: 700px;
+    /* ENKEL RADIAL - GEEN LINEAR! */
+    background: radial-gradient(
+        ellipse 800px 400px at 50% 0%,
+        rgba(0, 242, 255, 1) 0%,
+        rgba(0, 230, 255, 0.9) 5%,
+        rgba(0, 210, 255, 0.8) 10%,
+        rgba(0, 180, 255, 0.7) 15%,
+        rgba(0, 150, 255, 0.6) 25%,
+        rgba(0, 120, 255, 0.45) 35%,
+        rgba(0, 100, 255, 0.35) 45%,
+        rgba(0, 80, 255, 0.25) 55%,
+        rgba(0, 60, 255, 0.15) 65%,
+        rgba(0, 40, 255, 0.08) 75%,
+        rgba(0, 20, 255, 0.02) 85%,
+        transparent 100%
+    );
     pointer-events: none;
-    z-index: 5;
-    opacity: 0.82;
-}
-
-/* Extra glow op de tekst zodat het lijkt alsof het licht erop valt */
-.diamond-text {
-    text-shadow: 
-        0 0 20px rgba(125, 211, 252, 0.75),
-        0 0 45px rgba(255, 255, 255, 0.45),
-        0 0 80px rgba(125, 211, 252, 0.35);
-    z-index: 6;
-    position: relative;
-}
-
-/* De letters extra 'pop' geven als ze in de straal staan */
-.diamond-text {
-    text-shadow: 0 0 20px rgba(125, 211, 252, 0.6), 0 0 40px rgba(255, 255, 255, 0.3);
-    z-index: 6; /* Zorg dat de tekst interactie lijkt te hebben met het licht */
+    z-index: 999;
+    filter: blur(50px);
+    -webkit-filter: blur(50px);
+    box-shadow: 
+        0 0 300px rgba(0, 242, 255, 1),
+        0 0 500px rgba(0, 150, 255, 0.8),
+        0 0 800px rgba(0, 100, 255, 0.5),
+        inset 0 0 300px rgba(0, 242, 255, 0.8);
+    mix-blend-mode: screen;
+    will-change: filter;
+    backface-visibility: hidden;
 }
 
 .navbar.scrolled {
