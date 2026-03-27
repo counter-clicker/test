@@ -79,37 +79,32 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* De LED-strip onder de navbar - SPOTLIGHT EFFECT! */
+/* De LED-strip onder de navbar - SMOOTH SPOTLIGHT EFFECT! */
 .navbar::after {
     content: '';
     position: fixed;
     top: 70px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
-    max-width: 600px;
-    height: 250px;
-    background: radial-gradient(ellipse 400px 150px at center top, 
-        rgba(0, 242, 255, 0.8) 0%,
-        rgba(0, 200, 255, 0.6) 15%,
-        rgba(0, 150, 255, 0.4) 30%,
-        rgba(0, 100, 255, 0.2) 50%,
+    width: 150%;
+    max-width: 1000px;
+    height: 400px;
+    background: radial-gradient(ellipse 600px 250px at center top, 
+        rgba(0, 242, 255, 0.9) 0%,
+        rgba(0, 220, 255, 0.7) 12%,
+        rgba(0, 200, 255, 0.5) 25%,
+        rgba(0, 150, 255, 0.3) 40%,
+        rgba(0, 100, 255, 0.15) 60%,
+        rgba(0, 80, 255, 0.05) 80%,
         transparent 100%);
     pointer-events: none;
     z-index: 999;
-    filter: blur(15px);
+    filter: blur(25px);
     box-shadow: 
-        0 0 100px rgba(0, 242, 255, 0.7),
-        0 0 200px rgba(0, 150, 255, 0.4),
-        inset 0 0 80px rgba(0, 242, 255, 0.4);
+        0 0 150px rgba(0, 242, 255, 0.8),
+        0 0 300px rgba(0, 150, 255, 0.5),
+        inset 0 0 120px rgba(0, 242, 255, 0.5);
     mix-blend-mode: screen;
-    clip-path: polygon(
-        20% 0%,
-        80% 0%,
-        100% 80%,
-        50% 100%,
-        0% 80%
-    );
 }
 
 .navbar.scrolled {
@@ -733,3 +728,4 @@ footer::before {
     /* Voorkomt dat de browser de kaart constant hertekent tijdens scrollen */
     contain: strict;
 }
+
