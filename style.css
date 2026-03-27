@@ -69,22 +69,29 @@ h1, h2, h3, .logo {
     padding: 0; /* Padding naar 0 om de hoogte strak te houden */
     transform: translateZ(0); /* GPU versnelling */
     will-change: transform;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* De LED-strip onder de navbar */
+/* De LED-strip onder de navbar - VEEL STERKER! */
 .navbar::after {
     content: '';
     position: absolute;
-    bottom: -15px; /* De straal begint net onder de balk */
+    bottom: -20px; /* De straal begint net onder de balk */
     left: 0;
     width: 100%;
-    height: 100px; /* Hoe ver het licht naar beneden schijnt */
+    height: 150px; /* Hoe ver het licht naar beneden schijnt */
     background: linear-gradient(to bottom, 
-        rgba(0, 242, 255, 0.3) 0%, 
-        rgba(0, 242, 255, 0.1) 40%, 
+        rgba(0, 242, 255, 0.6) 0%,
+        rgba(0, 200, 255, 0.4) 20%,
+        rgba(0, 150, 255, 0.2) 40%, 
+        rgba(0, 100, 255, 0.1) 60%,
         transparent 100%);
     pointer-events: none;
     z-index: -1;
+    filter: blur(8px);
+    box-shadow: 
+        0 0 60px rgba(0, 242, 255, 0.5),
+        0 0 100px rgba(0, 150, 255, 0.3);
 }
 
 .navbar.scrolled {
@@ -218,28 +225,49 @@ h1, h2, h3, .logo {
 /* --- LUXURY BUTTONS --- */
 .btn-glow {
     display: inline-block;
-    padding: 1rem 2.5rem;
-    background: rgba(2, 132, 199, 0.1);
+    padding: 1.1rem 2.8rem;
+    background: rgba(2, 132, 199, 0.12);
     color: var(--diamond-light);
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid var(--diamond-core);
-    border-radius: 4px; /* Scherpe randen = diamantslijpsel */
-    transition: all 0.4s ease;
+    letter-spacing: 2.5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1.5px solid var(--diamond-core);
+    border-radius: 6px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1) inset;
+    box-shadow: 
+        0 0 25px rgba(125, 211, 252, 0.2) inset,
+        0 0 20px rgba(125, 211, 252, 0.1);
+}
+
+.btn-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-glow:hover::before {
+    left: 100%;
 }
 
 .btn-glow:hover {
     background: var(--diamond-core);
     color: #000;
-    box-shadow: 0 0 30px rgba(125, 211, 252, 0.6);
-    transform: translateY(-2px);
+    box-shadow: 
+        0 0 50px rgba(125, 211, 252, 0.8),
+        0 0 100px rgba(0, 150, 255, 0.4),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px) scale(1.05);
+    border-color: #ffffff;
 }
 
 .w-100 { width: 100%; }
@@ -252,36 +280,65 @@ h1, h2, h3, .logo {
     /* We halen backdrop-filter weg omdat dit de lag veroorzaakt */
     /* backdrop-filter: blur(10px); <--- Dit was de boosdoener */
     
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(125, 211, 252, 0.2);
-    border-left: 1px solid rgba(125, 211, 252, 0.2);
-    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(125, 211, 252, 0.3);
+    border-left: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 12px;
     padding: 2.5rem;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     position: relative;
     
     /* Forceert de videokaart om dit blokje te onthouden */
     transform: translateZ(0);
     will-change: transform;
+    
+    /* STERKE SCHADUW EFFECT */
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(125, 211, 252, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.premium-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, 
+        rgba(125, 211, 252, 0.1) 0%, 
+        transparent 50%, 
+        rgba(0, 150, 255, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
 .premium-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(125, 211, 252, 0.4), transparent 50%, transparent);
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.5), transparent 50%, transparent);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.5s ease;
 }
 
 .premium-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(125, 211, 252, 0.1);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(125, 211, 252, 0.3),
+        0 0 30px rgba(0, 150, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(125, 211, 252, 0.5);
+}
+
+.premium-card:hover::before {
+    opacity: 1;
 }
 
 .premium-card:hover::after {
@@ -294,11 +351,28 @@ section {
     position: relative;
 }
 
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(125, 211, 252, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(40px);
+}
+
 .section-title {
     text-align: center;
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 4rem;
     color: #fff;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(125, 211, 252, 0.2);
 }
 
 .section-title span {
@@ -361,11 +435,14 @@ section {
 
 .image-glow {
     position: absolute;
-    top: -20px; left: -20px; right: 20px; bottom: 20px;
+    top: -25px; left: -25px; right: 25px; bottom: 25px;
     border: 2px solid var(--diamond-core);
     z-index: 1;
-    border-radius: 4px;
-    box-shadow: 0 0 30px rgba(125, 211, 252, 0.2);
+    border-radius: 12px;
+    box-shadow: 
+        0 0 50px rgba(125, 211, 252, 0.4),
+        0 0 100px rgba(0, 150, 255, 0.2),
+        0 20px 60px rgba(0, 0, 0, 0.8);
 }
 
 /* Diensten */
@@ -377,12 +454,38 @@ section {
 
 .dienst-card {
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.dienst-card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(125, 211, 252, 0.1) 0%, transparent 70%);
+    transition: all 0.6s ease;
+}
+
+.dienst-card:hover::before {
+    top: -50%;
+    left: -50%;
 }
 
 .dienst-card i {
     font-size: 2.5rem;
     color: var(--diamond-core);
     margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 15px rgba(125, 211, 252, 0.5));
+    transition: all 0.4s ease;
+}
+
+.dienst-card:hover i {
+    transform: scale(1.2) rotate(5deg);
+    filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.8));
 }
 
 .dienst-card h3 {
@@ -397,11 +500,20 @@ section {
 
 .prijs {
     font-family: var(--font-heading);
-    font-size: 2rem !important;
+    font-size: 2.2rem !important;
     color: var(--diamond-light) !important;
     margin-top: 1.5rem;
     display: inline-block;
-    border-bottom: 1px solid var(--diamond-core);
+    border-bottom: 2px solid var(--diamond-core);
+    padding-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(125, 211, 252, 0.5);
+    transition: all 0.3s ease;
+}
+
+.dienst-card:hover .prijs {
+    color: var(--diamond-core) !important;
+    text-shadow: 0 0 25px rgba(125, 211, 252, 0.8);
+    transform: scale(1.1);
 }
 
 /* Contact */
@@ -450,22 +562,34 @@ section {
 .contact-form input,
 .contact-form textarea {
     width: 100%;
-    padding: 1rem;
+    padding: 1.2rem;
     margin-bottom: 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(125, 211, 252, 0.2);
+    border-radius: 8px;
     color: white;
     font-family: var(--font-body);
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
     outline: none;
     border-color: var(--diamond-core);
-    background: rgba(125, 211, 252, 0.05);
-    box-shadow: 0 0 15px rgba(125, 211, 252, 0.1);
+    background: rgba(125, 211, 252, 0.08);
+    box-shadow: 
+        0 0 30px rgba(125, 211, 252, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 4px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
 }
 
 /* --- GEOPTIMALISEERDE MAP SECTIE (VOOR HOGE FPS) --- */
@@ -498,9 +622,22 @@ section {
 }
 /* Footer */
 footer {
-    background: #020202;
-    padding: 60px 0 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(to bottom, #020202, #0a0a0a);
+    padding: 80px 0 30px;
+    border-top: 1px solid rgba(125, 211, 252, 0.2);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(125, 211, 252, 0.08), transparent);
+    pointer-events: none;
 }
 
 .footer-content {
@@ -519,14 +656,27 @@ footer {
 
 .social-links a {
     color: var(--text-muted);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-right: 1.5rem;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(125, 211, 252, 0.05);
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .social-links a:hover {
     color: var(--diamond-core);
-    filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.6));
+    background: rgba(125, 211, 252, 0.15);
+    border-color: var(--diamond-core);
+    filter: drop-shadow(0 0 15px rgba(125, 211, 252, 0.8));
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(125, 211, 252, 0.3);
 }
 
 .footer-bottom {
@@ -563,3 +713,4 @@ footer {
     /* Voorkomt dat de browser de kaart constant hertekent tijdens scrollen */
     contain: strict;
 }
+
