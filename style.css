@@ -79,28 +79,37 @@ h1, h2, h3 {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* De LED-strip onder de navbar - REALISTISCH 3D LIGHT EFFECT! */
+/* De LED-strip onder de navbar - SPOTLIGHT EFFECT! */
 .navbar::after {
     content: '';
     position: fixed;
     top: 70px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
-    height: 200px;
-    background: linear-gradient(to bottom, 
-        rgba(0, 242, 255, 0.7) 0%,
-        rgba(0, 200, 255, 0.5) 15%,
-        rgba(0, 150, 255, 0.3) 35%, 
-        rgba(0, 100, 255, 0.15) 55%,
+    max-width: 600px;
+    height: 250px;
+    background: radial-gradient(ellipse 400px 150px at center top, 
+        rgba(0, 242, 255, 0.8) 0%,
+        rgba(0, 200, 255, 0.6) 15%,
+        rgba(0, 150, 255, 0.4) 30%,
+        rgba(0, 100, 255, 0.2) 50%,
         transparent 100%);
     pointer-events: none;
     z-index: 999;
-    filter: blur(12px);
+    filter: blur(15px);
     box-shadow: 
-        0 0 80px rgba(0, 242, 255, 0.6),
-        0 0 150px rgba(0, 150, 255, 0.4),
-        inset 0 0 50px rgba(0, 242, 255, 0.3);
+        0 0 100px rgba(0, 242, 255, 0.7),
+        0 0 200px rgba(0, 150, 255, 0.4),
+        inset 0 0 80px rgba(0, 242, 255, 0.4);
     mix-blend-mode: screen;
+    clip-path: polygon(
+        20% 0%,
+        80% 0%,
+        100% 80%,
+        50% 100%,
+        0% 80%
+    );
 }
 
 .navbar.scrolled {
@@ -724,4 +733,3 @@ footer::before {
     /* Voorkomt dat de browser de kaart constant hertekent tijdens scrollen */
     contain: strict;
 }
-
