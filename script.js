@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             particles = [];
-            for(let i = 0; i < 80; i++) { // Verhoogd naar 80 voor meer effect
+            for(let i = 0; i < 100; i++) {
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    size: Math.random() * 2.5 + 0.5,
+                    size: Math.random() * 3 + 0.5,
                     speedY: Math.random() * 0.4 - 0.8,
                     speedX: Math.random() * 0.4 - 0.2,
                     opacity: Math.random(),
@@ -58,8 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollY = window.scrollY;
         const navbarHeight = 70;
         const spotlightTop = navbarHeight + scrollY;
-        const spotlightBottom = spotlightTop + 250; // Spotlight hoogte
+        const spotlightBottom = spotlightTop + 800;
         const spotlightCenterX = window.innerWidth / 2;
+
+        // Update navbar styling on scroll
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
 
         allElements.forEach(el => {
             const rect = el.getBoundingClientRect();
@@ -67,136 +75,68 @@ document.addEventListener('DOMContentLoaded', function() {
             const elCenter = elTop + rect.height / 2;
             const elCenterX = rect.left + rect.width / 2;
 
-            // Controleer of element onder het LED spotlight is
             if (elCenter < spotlightBottom && elCenter > spotlightTop) {
-                // Bereken verticale afstand
-                let verticalDistance = Math.abs(spotlightTop + 80 - elCenter);
-                let verticalIntensity = Math.max(0, 1 - (verticalDistance / 150));
+                let verticalDistance = Math.abs(spotlightTop + 150 - elCenter);
+                let verticalIntensity = Math.max(0, 1 - (verticalDistance / 250));
                 
-                // Bereken horizontale afstand (spotlight is in het midden)
                 let horizontalDistance = Math.abs(spotlightCenterX - elCenterX);
-                let horizontalIntensity = Math.max(0, 1 - (horizontalDistance / 400));
+                let horizontalIntensity = Math.max(0, 1 - (horizontalDistance / 500));
                 
-                // Combineer intensiteiten
                 let totalIntensity = verticalIntensity * horizontalIntensity;
                 
-                if (totalIntensity > 0.1) {
-                    const glowColor = `rgba(0, 242, 255, ${totalIntensity * 0.7})`;
-                    const shadowColor = `rgba(0, 100, 255, ${totalIntensity * 0.5})`;
+                if (totalIntensity > 0.05) {
+                    const glowColor = `rgba(0, 242, 255, ${totalIntensity * 0.8})`;
+                    const shadowColor = `rgba(0, 100, 255, ${totalIntensity * 0.6})`;
                     
                     if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
-                        // TEKST GLOW - 3D effect
                         el.style.textShadow = `
-                            0 0 15px ${glowColor},
-                            0 0 30px ${glowColor},
-                            0 8px 20px ${shadowColor},
-                            0 -8px 20px ${glowColor}
+                            0 0 20px ${glowColor},
+                            0 0 40px ${glowColor},
+                            0 10px 25px ${shadowColor},
+                            0 -10px 25px ${glowColor}
                         `;
-                        el.style.color = `hsl(200, 100%, ${80 + totalIntensity * 15}%)`;
+                        el.style.color = `hsl(200, 100%, ${80 + totalIntensity * 18}%)`;
                     }
                     
                     if (el.classList.contains('premium-card')) {
-                        // CARD GLOW - realistisch 3D
                         el.style.boxShadow = `
                             0 8px 32px rgba(0, 0, 0, 0.7),
-                            0 0 ${50 + totalIntensity * 70}px rgba(0, 242, 255, ${0.3 + totalIntensity * 0.5}),
-                            0 0 ${30 + totalIntensity * 50}px rgba(0, 150, 255, ${0.2 + totalIntensity * 0.4}),
-                            inset 0 1px 0 rgba(255, 255, 255, ${0.1 + totalIntensity * 0.2})
+                            0 0 ${60 + totalIntensity * 80}px rgba(0, 242, 255, ${0.3 + totalIntensity * 0.6}),
+                            0 0 ${40 + totalIntensity * 60}px rgba(0, 150, 255, ${0.2 + totalIntensity * 0.5}),
+                            inset 0 1px 0 rgba(255, 255, 255, ${0.1 + totalIntensity * 0.25})
                         `;
-                        el.style.borderColor = `rgba(125, 211, 252, ${0.3 + totalIntensity * 0.5})`;
+                        el.style.borderColor = `rgba(125, 211, 252, ${0.3 + totalIntensity * 0.6})`;
                     }
                     
                     if (el.tagName === 'IMG') {
-                        // AFBEELDING GLOW - realistisch
                         el.style.filter = `
-                            brightness(${1 + totalIntensity * 0.4})
-                            drop-shadow(0 0 ${20 + totalIntensity * 40}px rgba(0, 242, 255, ${totalIntensity * 0.6}))
-                            drop-shadow(0 8px 25px rgba(0, 0, 0, 0.8))
+                            brightness(${1 + totalIntensity * 0.5})
+                            drop-shadow(0 0 ${25 + totalIntensity * 50}px rgba(0, 242, 255, ${totalIntensity * 0.7}))
+                            drop-shadow(0 10px 30px rgba(0, 0, 0, 0.9))
                         `;
                     }
                 } else {
-                    // Reset wanneer te ver van spotlight af
-                    if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
-                        el.style.textShadow = '';
-                        el.style.color = '';
-                    }
-                    if (el.classList.contains('premium-card')) {
-                        el.style.boxShadow = '';
-                        el.style.borderColor = '';
-                    }
-                    if (el.tagName === 'IMG') {
-                        el.style.filter = '';
-                    }
+                    resetElement(el);
                 }
             } else {
-                // Reset wanneer niet onder licht
-                if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
-                    el.style.textShadow = '';
-                    el.style.color = '';
-                }
-                if (el.classList.contains('premium-card')) {
-                    el.style.boxShadow = '';
-                    el.style.borderColor = '';
-                }
-                if (el.tagName === 'IMG') {
-                    el.style.filter = '';
-                }
+                resetElement(el);
             }
         });
     }, { passive: true });
 
-    // --- GEOPTIMALISEERD SCROLL EFFECT (HOGE FPS) ---
-    let tick = false;
-    const navbar = document.querySelector('.navbar');
-    const textElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow');
-    const cards = document.querySelectorAll('.premium-card');
-
-    window.addEventListener('scroll', () => {
-        if (!tick) {
-            window.requestAnimationFrame(() => {
-                // Navbar achtergrond
-                if (window.scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-
-                // VERBETERDE Tekst glow effect
-                const navbarHeight = navbar.offsetHeight;
-                textElements.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    const distanceFromNav = rect.top - navbarHeight;
-
-                    if (distanceFromNav < 150 && distanceFromNav > -50) {
-                        let intensity = 1 - (Math.abs(distanceFromNav) / 150);
-                        el.style.filter = `drop-shadow(0 0 ${intensity * 8}px rgba(0, 242, 255, 0.8)) drop-shadow(0 0 ${intensity * 12}px rgba(0, 150, 255, 0.4))`;
-                    } else {
-                        el.style.filter = 'none';
-                    }
-                });
-
-                // NIEUWE: Card glow effect bij scroll nabijheid
-                cards.forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const distanceFromNav = rect.top - navbarHeight;
-
-                    if (distanceFromNav < 250 && distanceFromNav > -100) {
-                        let intensity = 1 - (Math.abs(distanceFromNav - 75) / 200);
-                        if (intensity > 0) {
-                            card.style.boxShadow = `
-                                0 8px 32px rgba(0, 0, 0, 0.7),
-                                0 0 ${40 + intensity * 40}px rgba(125, 211, 252, ${0.08 + intensity * 0.3}),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                            `;
-                        }
-                    }
-                });
-
-                tick = false;
-            });
-            tick = true;
+    function resetElement(el) {
+        if (el.tagName.match(/H[1-3]|P/) || el.classList.contains('btn-glow')) {
+            el.style.textShadow = '';
+            el.style.color = '';
         }
-    }, { passive: true });
+        if (el.classList.contains('premium-card')) {
+            el.style.boxShadow = '';
+            el.style.borderColor = '';
+        }
+        if (el.tagName === 'IMG') {
+            el.style.filter = '';
+        }
+    }
 
     // --- SMOOTH SCROLL ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -227,4 +167,3 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 });
-
