@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             particles = [];
-            for(let i = 0; i < 60; i++) { // Verlaagd naar 60 voor betere FPS
+            for(let i = 0; i < 80; i++) { // Verhoogd naar 80 voor meer effect
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    size: Math.random() * 2 + 0.5,
+                    size: Math.random() * 2.5 + 0.5,
                     speedY: Math.random() * 0.4 - 0.8,
                     speedX: Math.random() * 0.4 - 0.2,
                     opacity: Math.random(),
@@ -51,10 +51,21 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', initCanvas);
     }
 
+    // --- PARALLAX SCROLL EFFECT ---
+    const parallaxElements = document.querySelectorAll('section::before');
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        document.querySelectorAll('section').forEach((section, index) => {
+            const speed = 0.3 + (index * 0.05);
+            section.style.backgroundPosition = `0 ${scrollY * speed}px`;
+        });
+    }, { passive: true });
+
     // --- GEOPTIMALISEERD SCROLL EFFECT (HOGE FPS) ---
     let tick = false;
     const navbar = document.querySelector('.navbar');
     const textElements = document.querySelectorAll('h1, h2, h3, p, .btn-glow');
+    const cards = document.querySelectorAll('.premium-card');
 
     window.addEventListener('scroll', () => {
         if (!tick) {
@@ -66,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     navbar.classList.remove('scrolled');
                 }
 
-                // Tekst glow effect
+                // VERBETERDE Tekst glow effect
                 const navbarHeight = navbar.offsetHeight;
                 textElements.forEach(el => {
                     const rect = el.getBoundingClientRect();
@@ -74,11 +85,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (distanceFromNav < 150 && distanceFromNav > -50) {
                         let intensity = 1 - (Math.abs(distanceFromNav) / 150);
-                        el.style.filter = `drop-shadow(0 0 ${intensity * 4}px rgba(0, 242, 255, 0.6))`;
+                        el.style.filter = `drop-shadow(0 0 ${intensity * 8}px rgba(0, 242, 255, 0.8)) drop-shadow(0 0 ${intensity * 12}px rgba(0, 150, 255, 0.4))`;
                     } else {
                         el.style.filter = 'none';
                     }
                 });
+
+                // NIEUWE: Card glow effect bij scroll nabijheid
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const distanceFromNav = rect.top - navbarHeight;
+
+                    if (distanceFromNav < 250 && distanceFromNav > -100) {
+                        let intensity = 1 - (Math.abs(distanceFromNav - 75) / 200);
+                        if (intensity > 0) {
+                            card.style.boxShadow = `
+                                0 8px 32px rgba(0, 0, 0, 0.7),
+                                0 0 ${40 + intensity * 40}px rgba(125, 211, 252, ${0.08 + intensity * 0.3}),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                            `;
+                        }
+                    }
+                });
+
                 tick = false;
             });
             tick = true;
