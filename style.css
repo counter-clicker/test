@@ -57,39 +57,21 @@ h1, h2, h3, .logo {
 /* --- SPOTLIGHT FADE ELEMENT --- */
 .spotlight-fade {
     position: fixed;
-    top: 70px;
+    top: 0; /* Verander naar 0 */
     left: 50%;
-    transform: translateX(-50%) translateZ(0);
-    width: 150%;
-    height: 800px;
+    transform: translateX(-50%);
+    width: 100%; /* Iets minder breed bespaart rekenkracht */
+    height: 100vh;
+    /* Versimpel de gradient: minder stapjes is sneller */
     background: radial-gradient(
-        ellipse 900px 450px at 50% 0%,
-        rgba(0, 242, 255, 1) 0%,
-        rgba(0, 230, 255, 0.92) 4%,
-        rgba(0, 210, 255, 0.85) 8%,
-        rgba(0, 190, 255, 0.78) 12%,
-        rgba(0, 170, 255, 0.7) 18%,
-        rgba(0, 150, 255, 0.6) 25%,
-        rgba(0, 120, 255, 0.5) 35%,
-        rgba(0, 100, 255, 0.4) 45%,
-        rgba(0, 80, 255, 0.3) 55%,
-        rgba(0, 60, 255, 0.2) 65%,
-        rgba(0, 40, 255, 0.1) 75%,
-        rgba(0, 20, 255, 0.03) 85%,
-        transparent 100%
+        circle at 50% 0%,
+        rgba(0, 242, 255, 0.15) 0%, 
+        transparent 70%
     );
     pointer-events: none;
-    z-index: 998;
-    filter: blur(60px);
-    -webkit-filter: blur(60px);
-    box-shadow: 
-        0 0 400px rgba(0, 242, 255, 1),
-        0 0 600px rgba(0, 150, 255, 0.9),
-        0 0 1000px rgba(0, 100, 255, 0.6),
-        inset 0 0 300px rgba(0, 242, 255, 0.9);
-    mix-blend-mode: screen;
-    will-change: filter;
-    backface-visibility: hidden;
+    z-index: -1; /* CRUCIAAL: Zet dit ACHTER de content in plaats van erboven */
+    filter: blur(40px); /* Minder zware blur */
+    mix-blend-mode: plus-lighter; /* Lichter voor de processor dan 'screen' */
 }
 
 /* --- NAVBAR --- */
@@ -452,14 +434,15 @@ section::before {
 
 .image-glow {
     position: absolute;
-    top: -25px; left: -25px; right: 25px; bottom: 25px;
-    border: 2px solid var(--diamond-core);
+    top: -15px; 
+    left: -15px; 
+    right: 15px; 
+    bottom: 15px;
+    border: 1px solid rgba(125, 211, 252, 0.4);
     z-index: 1;
-    border-radius: 12px;
-    box-shadow: 
-        0 0 50px rgba(125, 211, 252, 0.4),
-        0 0 100px rgba(0, 150, 255, 0.2),
-        0 20px 60px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    /* Gebruik één simpele schaduw in plaats van drie zware */
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
 }
 
 /* Diensten */
